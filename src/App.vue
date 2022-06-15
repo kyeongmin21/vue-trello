@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+    <!-- header -->
     <navbar></navbar>
+    <!-- 보여지는 컴포넌트들 -->
     <router-view></router-view>
   </div>
 </template>

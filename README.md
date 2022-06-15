@@ -11,6 +11,10 @@
 ```
 <router-link to="/"> </router-link> 
 ```
+- 동적 라우팅 : path: '/board/:id' 값을 주면, (동적 세그먼트는 콜론으로 시작한다) <br>
+  this.$route.params.id 로 적은 데이터를 가져올 수 있다.<br>
+  
+
 
 
 ### Compiles and hot-reloads for development

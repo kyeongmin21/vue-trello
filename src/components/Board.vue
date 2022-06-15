@@ -1,16 +1,21 @@
 <template>
   <div>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/login">Login</router-link>
+    <h1>Board</h1>
+    <p>board Id : {{ boardId }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Navbar',
+  name: 'Board',
   components: {},
   data() {
-    return {}
+    return {
+      boardId: 0
+    }
+  },
+  created() {
+    this.boardId = this.$route.params.id
   },
   computed: {},
   watch: {},
