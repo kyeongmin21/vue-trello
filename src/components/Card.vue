@@ -7,12 +7,15 @@
 <script>
 export default {
   name: 'Card',
-  components: {},
   data() {
     return {
+      cardId: 0
     }
   },
-  computed: {},
+  created() {
+    this.cardId = this.$route.params.cardId
+    console.log('id', this.cardId)
+  },
   watch: {},
   methods: {}
 }
