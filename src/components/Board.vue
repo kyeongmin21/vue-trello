@@ -2,6 +2,8 @@
   <div>
     <h1>Board</h1>
     <p>board Id : {{ boardId }}</p>
+    <router-link :to="`/board/${boardId}/card/1`">card 1</router-link> |
+    <router-link :to="`/board/${boardId}/card/2`">card 2</router-link>
     <hr>
     <router-view></router-view>
   </div>
@@ -10,7 +12,6 @@
 <script>
 export default {
   name: 'Board',
-  components: {},
   data() {
     return {
       boardId: 0
@@ -18,10 +19,7 @@ export default {
   },
   created() {
     this.boardId = this.$route.params.id
-  },
-  computed: {},
-  watch: {},
-  methods: {}
+  }
 }
 </script>
 

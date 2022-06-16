@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Card</h1>
+    <div>card Id : {{ cardId }}</div>
   </div>
 </template>
 
@@ -12,12 +13,14 @@ export default {
       cardId: 0
     }
   },
-  created() {
-    this.cardId = this.$route.params.cardId
-    console.log('id', this.cardId)
+  watch: {
+    '$route'() {
+      this.cardId = this.$route.params.cardId
+    }
   },
-  watch: {},
-  methods: {}
+  methods: {
+
+  }
 }
 </script>
 
