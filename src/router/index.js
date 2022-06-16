@@ -18,7 +18,10 @@ const routes = [
   {
     path: '/board/:id',
     name: 'Board',
-    component: () => import(/* webpackChunkName: "board" */ '../components/Board.vue')
+    component: () => import(/* webpackChunkName: "board" */ '../components/Board.vue'),
+    children: [
+      { path: '/card/:cardId', component: () => import(/* webpackChunkName: "card" */ '../components/Card.vue') }
+    ]
   },
   {
     path: '/notFound',
