@@ -2,6 +2,8 @@
   <div>
     <h1>Board</h1>
     <p>board Id : {{ boardId }}</p>
+    <hr>
+    <router-view></router-view>
   </div>
 </template>
 

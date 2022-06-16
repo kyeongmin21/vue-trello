@@ -20,7 +20,7 @@ const routes = [
     name: 'Board',
     component: () => import(/* webpackChunkName: "board" */ '../components/Board.vue'),
     children: [
-      { path: '/card/:cardId', component: () => import(/* webpackChunkName: "card" */ '../components/Card.vue') }
+      { path: 'card/:cardId', component: () => import(/* webpackChunkName: "card" */ '../components/Card.vue') }
     ]
   },
   {
