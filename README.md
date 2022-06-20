@@ -26,3 +26,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
   - npm run dev
   - server is running localhost:3000 번이라 뜨면 성공인거다!
   - locaolhost:3000번으로 접속하자
+  - test 로 터미널 하나를 열어서 curl localhost:3000/health -v 명령어 적어서 더 자세한 정보 보기
+  - 화살표가 오른쪽은 요청 / 왼쪽 화살표는 응답된 데이터 정보
+  - curl localhost:3000/health -v | jq
+  - jq라는 툴이 있으면 json 을 이쁘게 볼 수 있다.
+
