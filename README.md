@@ -16,3 +16,13 @@
   
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## API 통신
+- 백엔드 API 살펴보기
+  - https://github.com/jeonghwan-kim/lecture-vue-trello-server.git   주소를 clone 후,
+  - 터미널에 git clone 깃헙주소 붙여넣기
+  - cd lecture-vue-trello-server 로 폴더안으로 들어가기
+  - 얘도 node로 만든 서버라 npm i 해줘야한다.
+  - npm run dev
+  - server is running localhost:3000 번이라 뜨면 성공인거다!
+  - locaolhost:3000번으로 접속하자
