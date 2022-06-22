@@ -29,3 +29,4 @@
   - curl localhost:3000/health -v | jq
   - jq라는 툴이 있으면 json 을 이쁘게 볼 수 있다.
 
+- Ajax - HttpXMLRequst 객체
