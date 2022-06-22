@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Home',
   components: {},
@@ -30,25 +32,32 @@ export default {
   created() {
     this.fetchData()
   },
-  computed: {},
-  watch: {},
   methods: {
     fetchData() {
       this.loading = true
-      const req = new XMLHttpRequest()
+      axios.get('http://localhost:3000/health2')
+        .then(res => {
+          this.apiRes = res.data
+        })
+        .catch(res => {
+          this.error = res.response.data
+        })
+        .finally(() => {
+          this.loading = false
+        })
+
+/*      const req = new XMLHttpRequest()
       req.open('GET', 'http://localhost:3000/health')
-
-      // client > server 요청이 날라감
-      req.send()
-
+      req.send() // client > server 요청이 날라감
       req.addEventListener('load', () => {
         this.loading = false
         this.apiRes = {
-          status:  req.status,
+          status: req.status,
           statusText: req.statusText,
           response: JSON.parse(req.response)
         }
       })
+      */
     }
   }
 }
