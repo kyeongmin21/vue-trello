@@ -35,7 +35,7 @@ export default {
   methods: {
     fetchData() {
       this.loading = true
-      axios.get('http://localhost:3000/health2')
+      axios.get('http://localhost:3000/health')
         .then(res => {
           this.apiRes = res.data
         })
