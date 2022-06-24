@@ -30,3 +30,4 @@
   - jq라는 툴이 있으면 json 을 이쁘게 볼 수 있다.
 
 - Ajax - HttpXMLRequst 객체
+- 보드조회 API 연동

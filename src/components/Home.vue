@@ -4,7 +4,9 @@
     <div>
       Board List :
       <div v-if="loading">Loading...</div>
-      <div v-else>Api result: {{ boards }}</div>
+      <div v-else>
+        <div v-for="item in boards" :key="item.id">{{ item }}</div>
+        Api result: {{ boards }}</div>
       <ul>
         <li>
           <router-link to="/board/1">board 1</router-link>
