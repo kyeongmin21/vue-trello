@@ -1,22 +1,64 @@
 <template>
-  <div>
-    <h1>Login</h1>
+  <div class="login">
+    <h2>Log in to Trello</h2>
+    <form @submit.prevent="onSubmit">
+      <div>
+        <label for="email">Email</label>
+        <input id="email"
+               class="form-control"
+               type="text"
+               name="email"
+               v-model="email"
+               autofocus
+               placeholder="test@test.com"/>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password"
+               class="form-control"
+               type="password"
+               v-model="password"
+               placeholder="123123"/>
+      </div>
+      <button class="btn"
+              :class="{ 'btn-success': invalidForm }"
+              type="submit"
+              :disabled="invalidForm">Log In</button>
+    </form>
+    <p class="error" v-if="error">{{ error }}</p>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Login',
-  components: {},
   data() {
-    return {}
+    return {
+      email: '',
+      password: '',
+      error: ''
+    }
   },
-  computed: {},
+  computed: {
+    invalidForm () {
+      return this.email && this.password
+    }
+  },
   watch: {},
-  methods: {}
+  methods: {
+    onSubmit () {
+      console.log(this.email, this.password)
+    }
+  }
 }
 </script>
 
 <style>
-
+  .login {
+    width: 400px;
+    margin: 0 auto;
+  }
+  .error {
+    color: #f00;
+  }
 </style>
