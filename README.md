@@ -31,3 +31,6 @@
 
 - Ajax - HttpXMLRequst 객체
 - 보드조회 API 연동
+
+## 인증 API
+
