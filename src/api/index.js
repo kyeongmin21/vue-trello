@@ -24,3 +24,10 @@ export const board = {
         return request('get', '/boards')
     }
 }
+
+export const auth = {
+    login(email, password) {
+        return request.post('/login', {email, password})
+            .then(({data}) => data)
+    }
+}

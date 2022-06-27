@@ -23,42 +23,58 @@
       <button class="btn"
               :class="{ 'btn-success': invalidForm }"
               type="submit"
-              :disabled="invalidForm">Log In</button>
+              :disabled="invalidForm">Log In
+      </button>
     </form>
     <p class="error" v-if="error">{{ error }}</p>
   </div>
 </template>
 
 <script>
+import {auth} from '../api'
+
 export default {
   name: 'Login',
   data() {
     return {
       email: '',
       password: '',
-      error: ''
+      error: '',
+      rPath: ''
     }
   },
   computed: {
-    invalidForm () {
+    invalidForm() {
       return this.email && this.password
     }
   },
-  watch: {},
+  created() {
+    this.rPath = this.$route.query.rPath || '/'
+  },
   methods: {
-    onSubmit () {
-      console.log(this.email, this.password)
+    onSubmit() {
+
+      auth.login(this.email, this.password)
+        .then(data => {
+          localStorage.setItem('token', data.accessToken)
+          this.$router.push(this.rPath)
+          console.log(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
 </script>
 
 <style>
-  .login {
-    width: 400px;
-    margin: 0 auto;
-  }
-  .error {
-    color: #f00;
-  }
+.login {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.error {
+  color: #f00;
+}
 </style>
