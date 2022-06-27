@@ -13,7 +13,7 @@
                placeholder="test@test.com"/>
       </div>
       <div>
-        <label for="password">Password</label>
+        <label for="password">Passwrod</label>
         <input id="password"
                class="form-control"
                type="password"
@@ -21,17 +21,16 @@
                placeholder="123123"/>
       </div>
       <button class="btn"
-              :class="{ 'btn-success': invalidForm }"
+              :class="{'btn-success': !invalidForm}"
               type="submit"
-              :disabled="invalidForm">Log In
-      </button>
+              :disabled="invalidForm">Log In</button>
     </form>
     <p class="error" v-if="error">{{ error }}</p>
   </div>
 </template>
 
 <script>
-import {auth} from '../api'
+import {auth, setAuthInHeader} from '../api'
 
 export default {
   name: 'Login',
@@ -45,10 +44,11 @@ export default {
   },
   computed: {
     invalidForm() {
-      return this.email && this.password
+      return !this.email || !this.password
     }
   },
   created() {
+    // 아무것도 없을 때는 / 홈으로 이동
     this.rPath = this.$route.query.rPath || '/'
   },
   methods: {
@@ -57,8 +57,8 @@ export default {
       auth.login(this.email, this.password)
         .then(data => {
           localStorage.setItem('token', data.accessToken)
+          setAuthInHeader(data.accessToken)
           this.$router.push(this.rPath)
-          console.log(data)
         })
         .catch(error => {
           console.log(error)
