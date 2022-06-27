@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     onSubmit() {
-
       auth.login(this.email, this.password)
         .then(data => {
           localStorage.setItem('token', data.accessToken)
@@ -61,7 +60,7 @@ export default {
           this.$router.push(this.rPath)
         })
         .catch(error => {
-          console.log(error)
+          this.error = error.data.error
         })
     }
   }
