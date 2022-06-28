@@ -4,7 +4,8 @@ import router from '../router'
 const DOMAIN = 'http://localhost:3000'
 const UNAUTHORIZED = 401
 const onUnauthorized = () => {
-    router.push(`/login?returnPath=${encodeURIComponent(location.pathname)}`)
+    router.push(`/login?returnPath=${encodeURIComponent(location.pathname)}`).catch(()=>{});
+
 }
 
 const request = (method, url, data) => {
@@ -16,7 +17,7 @@ const request = (method, url, data) => {
         .catch(result => {
             const { status } = result.response
             if (status === UNAUTHORIZED) return onUnauthorized()
-            throw result.response
+            throw Error(result)
         })
 }
 export const setAuthInHeader = token => {

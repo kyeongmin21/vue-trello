@@ -13,7 +13,7 @@
                placeholder="test@test.com"/>
       </div>
       <div>
-        <label for="password">Passwrod</label>
+        <label for="password">Password</label>
         <input id="password"
                class="form-control"
                type="password"
@@ -55,12 +55,15 @@ export default {
     onSubmit() {
       auth.login(this.email, this.password)
         .then(data => {
+          console.log('로그인성공', data)
           localStorage.setItem('token', data.accessToken)
           setAuthInHeader(data.accessToken)
           this.$router.push(this.rPath)
         })
-        .catch(error => {
-          this.error = error.data.error
+        .catch(err => {
+
+          console.log('로그인실패', err)
+
         })
     }
   }

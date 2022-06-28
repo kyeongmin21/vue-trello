@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const requireAuth = (to, from, next) => {
   const isAuth = localStorage.getItem('token')
   const loginPath = `/login?rPath=${encodeURIComponent(to.path)}`
-  isAuth ? next() : loginPath
+  isAuth ? next() : next(loginPath)
 }
 
 const routes = [
