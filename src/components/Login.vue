@@ -61,9 +61,8 @@ export default {
           this.$router.push(this.rPath)
         })
         .catch(err => {
-
+          this.error = err.data.error
           console.log('로그인실패', err)
-
         })
     }
   }
