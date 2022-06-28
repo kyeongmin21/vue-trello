@@ -1,24 +1,36 @@
 <template>
   <nav class="header">
     <div class="header-logo">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link>
     </div>
     <div class="header-auth">
-      <router-link to="/login">Login</router-link>
+      <a href="" v-if="isAuth" @click.prevent="logout">Logout</a>
+      <router-link v-else to="/login">Login</router-link>
+<!--      <a href="">Logout</a>-->
     </div>
   </nav>
 </template>
 
 <script>
+import { setAuthInHeader } from "../api";
+
 export default {
   name: 'Navbar',
-  components: {},
   data() {
     return {}
   },
-  computed: {},
-  watch: {},
-  methods: {}
+  computed: {
+    isAuth () {
+      return !!localStorage.getItem('token')
+    }
+  },
+  methods: {
+    logout () {
+      delete localStorage.token
+      setAuthInHeader(null)
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 
