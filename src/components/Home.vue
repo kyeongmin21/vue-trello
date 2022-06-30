@@ -1,27 +1,29 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <div>
-      Board List :
-      <div v-if="loading">Loading...</div>
-      <div v-else>
-        <div v-for="item in boards" :key="item.id">{{ item }}</div>
-        Api result: {{ boards }}
+    <div class="home-title">Personal Boards</div>
+    <div class="board-list" ref="boardList">
+      <div class="board-item"
+           v-for="board in boards"
+           :key="board.id"
+           :data-bgcolor="board.bgColor"
+           ref="boardItem">
+        <router-link :to="`/board/${board.id}`">
+          <div class="board-item-title">{{ board.title }}</div>
+        </router-link>
       </div>
-      <ul>
-        <li>
-          <router-link to="/board/1">board 1</router-link>
-        </li>
-        <li>
-          <router-link to="/board/2">board 2</router-link>
-        </li>
-      </ul>
+      <div class="board-item board-item-new">
+        <a class="new-board-btn" href="" @click.prevent="addBoard">
+          Create new board...
+        </a>
+      </div>
     </div>
+
   </div>
 </template>
 
+
 <script>
-import { board } from '../api'
+import {board} from '../api'
 
 export default {
   name: 'Home',
@@ -35,12 +37,20 @@ export default {
   created() {
     this.fetchData()
   },
+  updated() {
+    this.$refs.boardItem.forEach(element => {
+      element.style.backgroundColor = element.dataset.bgcolor
+    })
+  },
   methods: {
+    addBoard() {
+      console.log()
+    },
     fetchData() {
       this.loading = true
       board.fetch()
         .then(data => {
-          this.boards = data
+          this.boards = data.list
         })
         .finally(() => {
           this.loading = false
@@ -72,7 +82,8 @@ export default {
           }
         })
       */
-    }
+    },
+
   }
 }
 </script>
@@ -83,34 +94,40 @@ export default {
   font-size: 18px;
   font-weight: bold;
 }
+
 .board-list {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
 }
+
 .board-item {
   width: 23%;
   height: 100px;
   margin: 0 2% 20px 0;
   border-radius: 3px;
 }
+
 .board-item a {
   text-decoration: none;
   display: block;
   width: 100%;
   height: 100%;
 }
+
 .board-item a:hover,
 .board-item a:focus {
-  background-color: rgba(0,0,0, .1);
+  background-color: rgba(0, 0, 0, .1);
   color: #666;
 }
+
 .board-item-title {
   color: #fff;
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
 }
+
 .board-item a.new-board-btn {
   display: table-cell;
   vertical-align: middle;
