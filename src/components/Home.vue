@@ -3,15 +3,16 @@
     <div class="home-title">Personal Boards</div>
     <div class="board-list" ref="boardList">
       <div class="board-item"
+           ref="boardItem"
            v-for="board in boards"
            :key="board.id"
            :data-bgcolor="board.bgColor"
-           ref="boardItem">
+           >
         <router-link :to="`/board/${board.id}`">
           <div class="board-item-title">{{ board.title }}</div>
         </router-link>
       </div>
-      <div class="board-item board-item-new">
+      <div class="board-item">
         <a class="new-board-btn" href="" @click.prevent="addBoard">
           Create new board...
         </a>
@@ -117,7 +118,7 @@ export default {
 
 .board-item a:hover,
 .board-item a:focus {
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgba(0, 0, 0, .3);
   color: #666;
 }
 
@@ -134,7 +135,8 @@ export default {
   text-align: center;
   height: 100px;
   width: inherit;
-  color: #888;
+  color: #fff;
+  background: #888;
   font-weight: 700;
 }
 </style>
