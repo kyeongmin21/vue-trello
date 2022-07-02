@@ -28,7 +28,7 @@
 
 
 <script>
-import {board} from '../api'
+import { board } from '../api'
 import AddBoard from "./AddBoard";
 
 export default {
