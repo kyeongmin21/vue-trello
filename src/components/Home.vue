@@ -19,20 +19,28 @@
       </div>
     </div>
 
+    <BoardAdd v-if="isAddBoard" @close="modalClose">
+
+    </BoardAdd>
   </div>
 </template>
 
 
 <script>
 import {board} from '../api'
+import BoardAdd from "./BoardAdd"
 
 export default {
   name: 'Home',
+  components: {
+    BoardAdd
+  },
   data() {
     return {
       loading: false,
       boards: [],
-      error: ''
+      error: '',
+      isAddBoard: false,
     }
   },
   created() {
@@ -45,7 +53,10 @@ export default {
   },
   methods: {
     addBoard() {
-      console.log()
+      this.isAddBoard = true
+    },
+    modalClose() {
+      this.isAddBoard = false
     },
     fetchData() {
       this.loading = true
@@ -138,5 +149,10 @@ export default {
   color: #fff;
   background: #888;
   font-weight: 700;
+}
+
+.modal-default-button{
+  float: right;
+  text-decoration: none;
 }
 </style>
