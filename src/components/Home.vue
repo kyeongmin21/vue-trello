@@ -19,21 +19,21 @@
       </div>
     </div>
 
-    <BoardAdd v-if="isAddBoard" @close="modalClose">
+    <AddBoard v-if="isAddBoard" @close="modalClose">
 
-    </BoardAdd>
+    </AddBoard>
   </div>
 </template>
 
 
 <script>
 import {board} from '../api'
-import BoardAdd from "./BoardAdd"
+import AddBoard from "./AddBoard";
 
 export default {
   name: 'Home',
   components: {
-    BoardAdd
+    AddBoard,
   },
   data() {
     return {
@@ -151,8 +151,8 @@ export default {
   font-weight: 700;
 }
 
-.modal-default-button{
+/*.modal-default-button{
   float: right;
   text-decoration: none;
-}
+}*/
 </style>
