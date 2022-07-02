@@ -7,7 +7,7 @@
            v-for="board in boards"
            :key="board.id"
            :data-bgcolor="board.bgColor"
-           >
+      >
         <router-link :to="`/board/${board.id}`">
           <div class="board-item-title">{{ board.title }}</div>
         </router-link>
@@ -19,8 +19,9 @@
       </div>
     </div>
 
-    <AddBoard v-if="isAddBoard" @close="modalClose">
-
+    <AddBoard v-if="isAddBoard"
+              @close="modalClose"
+              @submit="onAddBoard">
     </AddBoard>
   </div>
 </template>
@@ -57,6 +58,11 @@ export default {
     },
     modalClose() {
       this.isAddBoard = false
+    },
+    onAddBoard(title) {
+      // api
+      board.create(title)
+      .then(() => this.fetchData())
     },
     fetchData() {
       this.loading = true
@@ -151,8 +157,8 @@ export default {
   font-weight: 700;
 }
 
-/*.modal-default-button{
+.modal-default-button {
   float: right;
   text-decoration: none;
-}*/
+}
 </style>
