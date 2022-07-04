@@ -28,9 +28,9 @@
 
 
 <script>
-import { board } from '../api'
+
 import AddBoard from "./AddBoard";
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Home',
@@ -40,7 +40,6 @@ export default {
   data() {
     return {
       loading: false,
-      boards: [],
       error: '',
     }
   },
@@ -53,20 +52,18 @@ export default {
     })
   },
   computed: {
-      ...mapState(['isAddBoard'])
+      ...mapState(['isAddBoard', 'boards'])
   },
   methods: {
     ...mapMutations(['SET_IS_ADD_BOARD']),
+    ...mapActions(['FETCH_BOARDS']),
     onAddBoard() {
       this.fetchData()
     },
+
     fetchData() {
       this.loading = true
-      board.fetch()
-        .then(data => {
-          this.boards = data.list
-        })
-        .finally(() => {
+      this.FETCH_BOARDS().finally(() => {
           this.loading = false
         })
 
