@@ -13,7 +13,8 @@
         </router-link>
       </div>
       <div class="board-item">
-        <a class="new-board-btn" href="" @click.prevent="SET_IS_ADD_BOARD(true)">
+        <a class="new-board-btn" href=""
+           @click.prevent="SET_IS_ADD_BOARD(true)">
           Create new board...
         </a>
       </div>
@@ -56,10 +57,8 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_IS_ADD_BOARD']),
-    onAddBoard(title) {
-      // api
-      board.create(title)
-      .then(() => this.fetchData())
+    onAddBoard() {
+      this.fetchData()
     },
     fetchData() {
       this.loading = true

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { board } from '../api'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    ADD_BOARD (_, { title }) {
+      return board.create(title)
+    }
   },
   modules: {
   }
