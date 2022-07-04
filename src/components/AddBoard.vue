@@ -46,10 +46,8 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_IS_ADD_BOARD']),
-    close () {
-      this.$emit('close')
-    },
     addBoard () {
+      this.SET_IS_ADD_BOARD(false)
       this.$emit('submit', this.input)
     }
 
