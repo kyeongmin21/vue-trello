@@ -1,13 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { board } from '../api'
+import { board, setAuthInHeader } from '../api'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     isAddBoard: false,
-    boards: []
+    boards: [],
+    token: null
+  },
+  getters: {
+    isAuth (state) {
+      return !!state.token
+    }
   },
   mutations: {
     SET_IS_ADD_BOARD (state, toggle) {
@@ -15,6 +21,17 @@ export default new Vuex.Store({
     },
     SET_BOARDS (state, boards) {
       state.boards = boards
+    },
+    LOGIN (state, token) {
+      if (!token) return
+      state.token = token
+      localStorage.setItem('token', token)
+      setAuthInHeader(token)
+    },
+    LOGOUT (state) {
+      state.token = null
+      delete localStorage.token
+      setAuthInHeader(null)
     }
   },
   actions: {
