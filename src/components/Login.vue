@@ -55,7 +55,6 @@ export default {
     onSubmit() {
       auth.login(this.email, this.password)
         .then(data => {
-          // console.log('로그인성공', data)
           localStorage.setItem('token', data.accessToken)
           setAuthInHeader(data.accessToken)
           this.$router.push(this.rPath)

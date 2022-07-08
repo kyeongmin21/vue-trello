@@ -79,20 +79,6 @@ export default {
             this.loading = false
           })
       */
-
-      /*
-        const req = new XMLHttpRequest()
-        req.open('GET', 'http://localhost:3000/health')
-        req.send() // client > server 요청이 날라감
-        req.addEventListener('load', () => {
-          this.loading = false
-          this.apiRes = {
-            status: req.status,
-            statusText: req.statusText,
-            response: JSON.parse(req.response)
-          }
-        })
-      */
     },
 
   }
