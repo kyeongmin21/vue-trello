@@ -2,7 +2,7 @@ import { board, auth } from "../api";
 
 const actions = {
     ADD_BOARD(_, {title}) {
-        return board.create(title)
+        return board.create(title).then(data => data.item)
     },
     FETCH_BOARDS({commit}) {
         return board.fetch()
