@@ -3,7 +3,7 @@
     <!-- header -->
     <navbar></navbar>
     <!-- 보여지는 컴포넌트들 -->
-    <router-view></router-view>
+    <router-view class="container"></router-view>
   </div>
 </template>
 

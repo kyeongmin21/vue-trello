@@ -1,15 +1,12 @@
 <template>
   <div>
-    <h1>Board</h1>
-    <div v-if="loading">loading board...</div>
-    <div v-else>
-      <p>board Id : {{ boardId }}</p>
-      <pre>{{ this.board }}</pre>
-      <router-link :to="`/board/${boardId}/card/1`">card 1</router-link> |
-      <router-link :to="`/board/${boardId}/card/2`">card 2</router-link>
+    <div class="board-wrapper">
+      <div class="board">
+        <div class="board-header">
+          <span class="board-title">{{ board.title }}</span>
+        </div>
+      </div>
     </div>
-    <hr>
-    <router-view></router-view>
   </div>
 </template>
 
@@ -34,7 +31,7 @@ export default {
     ...mapActions(['FETCH_BOARD']),
     fetchData() {
       this.loading = true
-      this.FETCH_BOARD({id: this.$route.params.id})
+      this.FETCH_BOARD({ id: this.$route.params.id })
       .then(() => this.loading = false)
     }
   }
