@@ -5,12 +5,19 @@
         {{ data.title }}
       </div>
     </div>
+
+    <AddCard></AddCard>
   </div>
 </template>
 
 <script>
+import AddCard from "./AddCard"
+
 export default {
   name: "List",
+  components: {
+    AddCard
+  },
   props: ['data'],
 }
 </script>
