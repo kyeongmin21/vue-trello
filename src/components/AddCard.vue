@@ -1,8 +1,10 @@
 <template>
   <div class="add-card">
-    <input type="text" class="form-control">
+    <input type="text" class="form-control" ref="inputText">
     <button type="submit" class="btn btn-success">Add Card</button>
-    <a href="" class="cancel-add-btn" @click.prevent="$emit('close')" >&times;</a>
+    <a href=""
+       class="cancel-add-btn"
+       @click.prevent="$emit('close')">&times;</a>
   </div>
 </template>
 
@@ -13,6 +15,9 @@ export default {
     return {
       inputTitle: ''
     }
+  },
+  mounted() {
+    this.$refs.inputText.focus()
   }
 }
 </script>
@@ -23,6 +28,7 @@ export default {
   display: block;
   position: relative;
 }
+
 .add-card .cancel-add-btn {
   display: inline-block;
   margin-left: 10px;
@@ -31,6 +37,7 @@ export default {
   color: #888;
   font-size: 24px;
 }
+
 .add-card .cancel-add-btn:hover,
 .add-card .cancel-add-btn:focus {
   color: #666;
