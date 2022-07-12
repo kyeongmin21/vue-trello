@@ -26,13 +26,13 @@ import List from './List'
 export default {
   name: 'Board',
   components: {
-    // eslint-disable-next-line vue/no-unused-components
     List
   },
   data() {
     return {
-      boardId: 0,
-      loading: false
+      board: {
+        lists: []
+      }
     }
   },
   computed: {
