@@ -1,7 +1,7 @@
 <template>
   <div class="add-card">
-    <input type="text" class="form-control" ref="inputText">
-    <button type="submit" class="btn btn-success">Add Card</button>
+    <input type="text" class="form-control" ref="inputText" v-model="inputTitle">
+    <button type="submit" class="btn btn-success" :disabled="invalidInput">Add Card</button>
     <a href=""
        class="cancel-add-btn"
        @click.prevent="$emit('close')">&times;</a>
@@ -14,6 +14,12 @@ export default {
   data() {
     return {
       inputTitle: ''
+    }
+  },
+  computed: {
+    invalidInput() {
+      // this.inputTitle.trim() 값이 있으면 false, 없으면 true
+      return !this.inputTitle.trim()
     }
   },
   mounted() {
