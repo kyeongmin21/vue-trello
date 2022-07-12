@@ -7,7 +7,7 @@
     </div>
 
     <div v-if="isAddCard">
-      <AddCard></AddCard>
+      <AddCard @close="isAddCard = false"></AddCard>
     </div>
    <div v-else>
      <a href="" class="add-card-btn" @click.prevent="isAddCard = true">
