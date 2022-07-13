@@ -1,10 +1,12 @@
 <template>
   <div class="add-card">
-    <input type="text" class="form-control" ref="inputText" v-model="inputTitle">
-    <button type="submit" class="btn btn-success" :disabled="invalidInput">Add Card</button>
-    <a href=""
-       class="cancel-add-btn"
-       @click.prevent="$emit('close')">&times;</a>
+    <form @submit.prevent="onSubmit">
+      <input type="text" class="form-control" ref="inputText" v-model="inputTitle">
+      <button type="submit" class="btn btn-success" :disabled="invalidInput">Add Card</button>
+      <a href=""
+         class="cancel-add-btn"
+         @click.prevent="$emit('close')">&times;</a>
+    </form>
   </div>
 </template>
 
@@ -24,6 +26,21 @@ export default {
   },
   mounted() {
     this.$refs.inputText.focus()
+    this.setupClickOutside(this.$el)
+  },
+  methods: {
+    onSubmit () {
+
+    },
+    setupClickOutside(el) {
+      document.querySelector('body').addEventListener('click', e => {
+        if (el.contains(e.target)) {
+          return
+        }
+        this.$emit('close')
+      })
+    },
+
   }
 }
 </script>
