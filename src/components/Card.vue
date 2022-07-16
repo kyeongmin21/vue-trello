@@ -1,17 +1,23 @@
 <template>
   <div>
-    <h1>Card</h1>
-    <div v-if="loading">loading card...</div>
-    <div v-else>
-      <div>card Id : {{ cardId }}</div>
-    </div>
-
+    <Modal>
+      <h1>Card</h1>
+      <div v-if="loading">loading card...</div>
+      <div v-else>
+        <div>card Id : {{ cardId }}</div>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
+import Modal from './Modal'
+
 export default {
   name: 'Card',
+  components: {
+    Modal
+  },
   data() {
     return {
       cardId: 0,

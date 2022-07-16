@@ -1,16 +1,24 @@
 <template>
   <div class="card-item">
-    <div>{{ data.title }}</div>
-    <div class="card-item-meta" v-if="data.description">&equiv;</div>
+    <router-link :to="`/board/${boardId}/card/${data.id}`">
+      <div>{{ data.title }}</div>
+      <div class="card-item-meta" v-if="data.description">&equiv;</div>
+    </router-link>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'CardItem',
   props: ['data'],
-  methods: {
-  }
+  computed: {
+    ...mapState({
+      boardId: state => state.board.id
+    })
+  },
+  methods: {}
 }
 </script>
 
@@ -23,6 +31,7 @@ export default {
   box-shadow: 0 1px 0 #ccc;
   position: relative;
 }
+
 .card-item a {
   text-decoration: none;
   color: #444;
@@ -31,16 +40,19 @@ export default {
   overflow: hidden;
   display: block;
 }
+
 .card-item:hover,
 .card-item:focus {
-  background-color: rgba(0,0,0, .1);
+  background-color: rgba(0, 0, 0, .1);
   cursor: pointer;
 }
+
 .card-item-meta {
   font-size: 26px;
   padding: 5px 0 0 3px;
   color: #8c8c8c;
 }
+
 .delete-card-btn {
   position: absolute;
   right: 10px;

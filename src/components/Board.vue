@@ -13,9 +13,12 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
+
+    <!--router에서 card 라우터 -->
+    <router-view></router-view>
+
   </div>
 </template>
 
