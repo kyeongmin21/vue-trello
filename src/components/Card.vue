@@ -8,7 +8,7 @@
                :readonly="!toggleTitle"
                @click="toggleTitle = true"
                @blur="onBlurTitle"
-                ref="inputTitle">
+               ref="inputTitle">
       </div>
       <a class="modal-close-btn" href="" @click.prevent="onClose">&times;</a>
     </div>
@@ -18,7 +18,10 @@
                 cols="30"
                 rows="3"
                 placeholder="Add a more detailed description..."
-                readonly
+                :readonly="!toggleDesc"
+                @click="toggleDesc = true"
+                @blur="onBlurDesc"
+                ref="inputDesc"
                 v-model="card.description"></textarea>
     </div>
     <div slot="footer"></div>
@@ -36,7 +39,8 @@ export default {
   },
   data() {
     return {
-      toggleTitle: false
+      toggleTitle: false,
+      toggleDesc: false
     }
   },
   computed: {
@@ -62,6 +66,13 @@ export default {
       const title = this.$refs.inputTitle.value.trim()
       if (!title) return
       this.UPDATE_CARD({id: this.card.id, title})
+      .then(() => this.fetchCard())
+    },
+    onBlurDesc() {
+      this.toggleDesc = false
+      const description = this.$refs.inputDesc.value.trim()
+      if (!description) return
+      this.UPDATE_CARD({id: this.card.id, description})
       .then(() => this.fetchCard())
     }
   }
