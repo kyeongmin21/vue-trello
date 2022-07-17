@@ -27,7 +27,8 @@ const actions = {
         return card.fetch(id).then(data => {
             commit('SET_CARD', data.item)
         })
-    }
+    },
+
 
 }
 
