@@ -51,7 +51,7 @@ export default {
     this.dragularCards = dragula([
       // 유사배열로 만들어줌
       ...Array.from(this.$el.querySelectorAll('.card-list'))
-    ]).on('drop', (el, wrapper, target, siblings) => {
+    ]).on('drop', (el, wrapper) => {
       // 어디를 이동해야할지 정보를 담는 카드
       const targetCard = {
         id: el.dataset.cardId * 1,
@@ -82,12 +82,13 @@ export default {
       else if (prevCard && !nextCard) targetCard.pos = prevCard.pos * 2
       // 중간에 있는 카드
       else if (prevCard && nextCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
+
+      this.UPDATE_CARD(targetCard)
+
     })
-
-
   },
   methods: {
-    ...mapActions(['FETCH_BOARD']),
+    ...mapActions(['FETCH_BOARD', 'UPDATE_CARD']),
     fetchData() {
       this.loading = true
       this.FETCH_BOARD({id: this.$route.params.id})
