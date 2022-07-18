@@ -25,6 +25,8 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import List from './List'
+import dragula from 'dragula'
+import 'dragula/dist/dragula.css'
 
 export default {
   name: 'Board',
@@ -33,13 +35,23 @@ export default {
   },
   data() {
     return {
+      dragularCards: null
     }
   },
   computed: {
-    ...mapState(['board'])
+    ...mapState({
+      board: 'board'
+    })
   },
   created() {
     this.fetchData()
+  },
+  updated() {
+    if (this.dragularCards) this.dragularCards.destroy()
+    this.dragularCards = dragula([
+      // 유사배열로 만들어줌
+      ...Array.from(this.$el.querySelectorAll('.card-list'))
+    ])
   },
   methods: {
     ...mapActions(['FETCH_BOARD']),
