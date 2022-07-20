@@ -17,6 +17,7 @@ import {mapMutations} from 'vuex'
 export default {
   name: "BoardSettings",
   methods: {
+    // 사이드 메뉴가 보여지고 안보여지고 하는 기능
     ...mapMutations(['SET_IS_SHOW_SETTINGS']),
     onClose() {
       this.SET_IS_SHOW_SETTINGS(false)
