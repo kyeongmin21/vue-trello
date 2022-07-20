@@ -51,7 +51,7 @@ export const card = {
         return request('put', `/cards/${id}`, payload)
     },
     destroy(id) {
-        return request('delete', `/card/${id}`)
+        return request('delete', `/cards/${id}`)
     }
 }
 

@@ -8,11 +8,12 @@
       <div class="card-item-meta" v-if="data.description">&equiv;</div>
     </router-link>
 
+    <a href="" class="delete-card-btn" @click.prevent="onDelete">&times;</a>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'CardItem',
@@ -22,7 +23,15 @@ export default {
       boardId: state => state.board.id
     })
   },
-  methods: {}
+  methods: {
+    ...mapActions(['DELETE_CARD']),
+    onDelete() {
+      // 삭제 안하겠다 하면 종료
+      if (!window.confirm('Delete this card ?')) return
+      // props로 data id 가져옴
+      this.DELETE_CARD({id: this.data.id})
+    }
+  }
 }
 </script>
 
