@@ -4,6 +4,10 @@
       <div class="board">
         <div class="board-header">
           <span class="board-title">{{ board.title }}</span>
+          <a class="board-header-btn show-menu" href=""
+             @click.prevent="onShowSettings">
+            ... Show Menu
+          </a>
         </div>
 
         <div class="list-section-wrapper">
@@ -16,6 +20,9 @@
       </div>
     </div>
 
+    <!--상태값에 따라 보여지고 안보여지고 해야함 -->
+    <BoardSettings v-if="isShowBoardSettings"></BoardSettings>
+
     <!--router에서 card 라우터 -->
     <router-view></router-view>
 
@@ -27,11 +34,13 @@ import {mapState, mapMutations, mapActions} from 'vuex'
 import List from './List'
 import dragula from 'dragula'
 import 'dragula/dist/dragula.css'
+import BoardSettings from "./BoardSettings"
 
 export default {
   name: 'Board',
   components: {
-    List
+    List,
+    BoardSettings
   },
   data() {
     return {
@@ -40,7 +49,8 @@ export default {
   },
   computed: {
     ...mapState({
-      board: 'board'
+      board: 'board',
+      isShowBoardSettings: 'isShowBoardSettings'
     })
   },
   created() {
@@ -48,6 +58,8 @@ export default {
     this.fetchData().then(() => {
       this.SET_THEMA(this.board.bgColor)
     })
+    // show Menu를 클릭하고 > home > board 로 들어오면 메뉴가 열려져 있어서 닫혀주는 초기셋팅
+    this.SET_IS_SHOW_SETTINGS(false)
   },
   updated() {
     if (this.dragularCards) this.dragularCards.destroy()
@@ -91,12 +103,15 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(['SET_THEMA']),
+    ...mapMutations(['SET_THEMA', 'SET_IS_SHOW_SETTINGS']),
     ...mapActions(['FETCH_BOARD', 'UPDATE_CARD']),
     fetchData() {
       this.loading = true
       return this.FETCH_BOARD({id: this.$route.params.id})
         .then(() => this.loading = false)
+    },
+    onShowSettings() {
+      this.SET_IS_SHOW_SETTINGS(true)
     }
   }
 }
