@@ -6,20 +6,23 @@
     <div class="header-auth">
       <a href="" v-if="isAuth" @click.prevent="logout">Logout</a>
       <router-link v-else to="/login">Login</router-link>
-<!--      <a href="">Logout</a>-->
     </div>
   </nav>
 </template>
 
 <script>
-import{ mapGetters, mapMutations} from 'vuex'
+import {mapState, mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'Navbar',
-  data() {
-    return {}
+  mounted() {
+    this.updateThema()
   },
   computed: {
+    ...mapState({
+      navbarColor: 'navbarColor',
+      bodyColor: 'bodyColor'
+    }),
     ...mapGetters(['isAuth'])
   },
   methods: {
@@ -27,6 +30,12 @@ export default {
     logout() {
       this.LOGOUT()
       this.$router.push('/login')
+    },
+    updateThema() {
+      this.$el.style.backgroundColor = this.navbarColor
+      const container = document.querySelector('.container')
+
+      if (container) container.style.backgroundColor = this.bodyColor
     }
   }
 }
@@ -35,17 +44,19 @@ export default {
 <style>
 .header {
   flex: none;
-  background-color: rgba(0,0,0,.15);
+  background-color: rgba(0, 0, 0, .15);
   height: 32px;
   padding: 4px;
 }
+
 .header a {
   display: block;
   height: 30px;
   line-height: 30px;
   text-decoration: none;
-  color: rgba(255,255,255,.5);
+  color: rgba(255, 255, 255, .5);
 }
+
 .header-logo {
   position: absolute;
   left: 50%;
@@ -55,24 +66,28 @@ export default {
   font-weight: bolder;
   font-size: 24px;
 }
+
 .header-logo a:hover,
 .header-logo a:focus {
-  color: rgba(255,255,255,.9);
+  color: rgba(255, 255, 255, .9);
 }
+
 .header-auth {
   position: absolute;
   right: 15px;
   top: 5px;
 }
+
 .header-auth a {
   border-radius: 2px;
   padding: 0 10px;
-  background-color: rgba(255,255,255, .5);
+  background-color: rgba(255, 255, 255, .5);
   color: white;
   transition: all .3s;
 }
+
 .header-auth a:hover,
 .header-auth a:focus {
-  background-color: rgba(255,255,255, .3);
+  background-color: rgba(255, 255, 255, .3);
 }
 </style>

@@ -45,6 +45,7 @@ export default {
   },
   created() {
     this.fetchData()
+    this.SET_THEMA()
   },
   updated() {
     this.$refs.boardItem.forEach(element => {
@@ -55,32 +56,17 @@ export default {
       ...mapState(['isAddBoard', 'boards'])
   },
   methods: {
-    ...mapMutations(['SET_IS_ADD_BOARD']),
+    ...mapMutations(['SET_IS_ADD_BOARD', 'SET_THEMA']),
     ...mapActions(['FETCH_BOARDS']),
     onAddBoard() {
       this.fetchData()
     },
-
     fetchData() {
       this.loading = true
       this.FETCH_BOARDS().finally(() => {
           this.loading = false
         })
-
-      /*
-        axios.get('http://localhost:3000/boards')
-          .then(res => {
-            this.boards = res.data
-          })
-          .catch(() => {
-            this.$router.replace('/login')
-          })
-          .finally(() => {
-            this.loading = false
-          })
-      */
     },
-
   }
 }
 </script>
