@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapMutations, mapActions} from 'vuex'
 import List from './List'
 import dragula from 'dragula'
 import 'dragula/dist/dragula.css'
@@ -44,7 +44,10 @@ export default {
     })
   },
   created() {
-    this.fetchData()
+    // fetchData가 promise를 반환해야 then()을 쓸 수 있다.
+    this.fetchData().then(() => {
+      this.SET_THEMA(this.board.bgColor)
+    })
   },
   updated() {
     if (this.dragularCards) this.dragularCards.destroy()
@@ -88,10 +91,11 @@ export default {
     })
   },
   methods: {
+    ...mapMutations(['SET_THEMA']),
     ...mapActions(['FETCH_BOARD', 'UPDATE_CARD']),
     fetchData() {
       this.loading = true
-      this.FETCH_BOARD({id: this.$route.params.id})
+      return this.FETCH_BOARD({id: this.$route.params.id})
         .then(() => this.loading = false)
     }
   }

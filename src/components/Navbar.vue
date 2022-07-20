@@ -15,15 +15,18 @@ import {mapState, mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'Navbar',
-  mounted() {
-    this.updateThema()
-  },
   computed: {
     ...mapState({
       navbarColor: 'navbarColor',
       bodyColor: 'bodyColor'
     }),
     ...mapGetters(['isAuth'])
+  },
+  watch: {
+    'bodyColor' : 'updateThema'
+  },
+  mounted() {
+    this.updateThema()
   },
   methods: {
     ...mapMutations(['LOGOUT']),
@@ -33,8 +36,11 @@ export default {
     },
     updateThema() {
       this.$el.style.backgroundColor = this.navbarColor
+
+      const body = document.querySelector('body')
       const container = document.querySelector('.container')
 
+      if (body) body.style.backgroundColor = this.bodyColor
       if (container) container.style.backgroundColor = this.bodyColor
     }
   }
