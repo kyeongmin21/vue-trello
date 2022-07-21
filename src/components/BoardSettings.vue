@@ -37,7 +37,7 @@ export default {
   methods: {
     // 사이드 메뉴가 보여지고 안보여지고 하는 기능
     ...mapMutations(['SET_IS_SHOW_SETTINGS', 'SET_THEMA']),
-    ...mapActions(['DELETE_BOARD']),
+    ...mapActions(['DELETE_BOARD', 'UPDATE_BOARD']),
     onClose() {
       this.SET_IS_SHOW_SETTINGS(false)
     },
@@ -48,8 +48,11 @@ export default {
       .then(() => this.$router.push('/'))
     },
     onChangeTheme(el) {
+      const id = this.board.id
       const bgColor = el.target.dataset.value
-      this.SET_THEMA(bgColor)
+      // 새로고침하면 바뀐컬러가 저장이 안되니깐, update api 설정해주기
+      this.UPDATE_BOARD({id, bgColor})
+      .then(() => this.SET_THEMA(bgColor))
     }
   }
 }
