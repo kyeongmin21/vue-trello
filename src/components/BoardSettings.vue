@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     // 사이드 메뉴가 보여지고 안보여지고 하는 기능
-    ...mapMutations(['SET_IS_SHOW_SETTINGS']),
+    ...mapMutations(['SET_IS_SHOW_SETTINGS', 'SET_THEMA']),
     ...mapActions(['DELETE_BOARD']),
     onClose() {
       this.SET_IS_SHOW_SETTINGS(false)
@@ -47,8 +47,9 @@ export default {
       .then(() => this.SET_IS_SHOW_SETTINGS(false))
       .then(() => this.$router.push('/'))
     },
-    onChangeTheme() {
-
+    onChangeTheme(el) {
+      const bgColor = el.target.dataset.value
+      this.SET_THEMA(bgColor)
     }
   }
 }
