@@ -22,6 +22,10 @@ const actions = {
     DELETE_BOARD(_, {id}) {
         return board.destroy(id)
     },
+    UPDATE_BOARD({dispatch, state}, {id, title, bgColor}) {
+        return board.update(id, {title, bgColor})
+            .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
+    },
     ADD_CARD ({dispatch, state}, {title, listId, pos}) {
         return card.create(title, listId, pos)
             .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
@@ -38,7 +42,7 @@ const actions = {
     DELETE_CARD({dispatch, state}, {id}) {
         return card.destroy(id)
             .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
-    }
+    },
 
 }
 
