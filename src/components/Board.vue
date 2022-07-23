@@ -3,7 +3,7 @@
     <div class="board-wrapper">
       <div class="board">
         <div class="board-header">
-          <input v-if="isEditTitle" type="text" v-model="inputTitle">
+          <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle">
           <span v-else class="board-title" @click="onClickTitle">{{ board.title }}</span>
           <a class="board-header-btn show-menu" href=""
              @click.prevent="onShowSettings">
@@ -119,6 +119,9 @@ export default {
     },
     onClickTitle() {
       this.isEditTitle = true
+      this.$nextTick(() => {
+        this.$refs.inputTitle.focus()
+      })
     }
   }
 }
