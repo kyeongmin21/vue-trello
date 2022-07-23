@@ -3,7 +3,8 @@
     <div class="board-wrapper">
       <div class="board">
         <div class="board-header">
-          <span class="board-title">{{ board.title }}</span>
+          <input v-if="isEditTitle" type="text" v-model="inputTitle">
+          <span v-else class="board-title" @click="onClickTitle">{{ board.title }}</span>
           <a class="board-header-btn show-menu" href=""
              @click.prevent="onShowSettings">
             ... Show Menu
@@ -44,7 +45,9 @@ export default {
   },
   data() {
     return {
-      dragularCards: null
+      dragularCards: null,
+      isEditTitle: false,
+      inputTitle: ''
     }
   },
   computed: {
@@ -56,6 +59,7 @@ export default {
   created() {
     // fetchData가 promise를 반환해야 then()을 쓸 수 있다.
     this.fetchData().then(() => {
+      this.inputTitle = this.board.title
       this.SET_THEMA(this.board.bgColor)
     })
     // show Menu를 클릭하고 > home > board 로 들어오면 메뉴가 열려져 있어서 닫혀주는 초기셋팅
@@ -112,6 +116,9 @@ export default {
     },
     onShowSettings() {
       this.SET_IS_SHOW_SETTINGS(true)
+    },
+    onClickTitle() {
+      this.isEditTitle = true
     }
   }
 }
