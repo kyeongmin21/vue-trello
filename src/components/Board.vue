@@ -3,7 +3,12 @@
     <div class="board-wrapper">
       <div class="board">
         <div class="board-header">
-          <input v-if="isEditTitle" type="text" v-model="inputTitle" ref="inputTitle">
+          <input type="text"
+                 v-if="isEditTitle"
+                 v-model="inputTitle"
+                 ref="inputTitle"
+          @blur="obSubmitTitle"
+          @keyup.enter="obSubmitTitle">
           <span v-else class="board-title" @click="onClickTitle">{{ board.title }}</span>
           <a class="board-header-btn show-menu" href=""
              @click.prevent="onShowSettings">
@@ -108,7 +113,7 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_THEMA', 'SET_IS_SHOW_SETTINGS']),
-    ...mapActions(['FETCH_BOARD', 'UPDATE_CARD']),
+    ...mapActions(['FETCH_BOARD', 'UPDATE_CARD', 'UPDATE_BOARD']),
     fetchData() {
       this.loading = true
       return this.FETCH_BOARD({id: this.$route.params.id})
@@ -122,6 +127,18 @@ export default {
       this.$nextTick(() => {
         this.$refs.inputTitle.focus()
       })
+    },
+    obSubmitTitle() {
+      this.isEditTitle = false
+
+      this.inputTitle = this.inputTitle.trim()
+      if(!this.inputTitle) return
+
+      const id = this.board.id
+      const title = this.inputTitle
+      if (title === this.board.title) return
+
+      this.UPDATE_BOARD({id, title})
     }
   }
 }
