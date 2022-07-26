@@ -4,7 +4,9 @@
            type="text"
            class="form-control"
            v-model="inputTitle"
-           ref="inputTitle">
+           ref="inputTitle"
+    @blur="restore"
+    @keyup.enter="onSubmitTitle">
     <a v-else href=""
        @click.prevent="onAddList">&plus; Add another list</a>
   </div>
@@ -23,11 +25,31 @@ export default {
     onAddList() {
       this.isAddList = true
       this.$nextTick(() => this.$refs.inputTitle.focus())
+    },
+    restore() {
+      this.isAddList = false
+      this.inputTitle = ''
+    },
+    onSubmitTitle() {
+      console.log('enter')
     }
   }
 }
 </script>
 
 <style scoped>
+.add-list {
+  background-color: rgba(0, 0, 0, .1);
+  padding: 12px;
+  color: #ddd;
+  transition: all .3s;
+}
+.add-list a{
+  color: #ddd;
+}
+.add-list:hover,
+.add-list:focus {
+  background-color: rgba(0, 0, 0, .3);
 
+}
 </style>
