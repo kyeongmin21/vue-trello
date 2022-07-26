@@ -1,4 +1,4 @@
-import {board, auth, card} from "../api";
+import {board, auth, card, list} from "../api";
 
 const actions = {
     LOGIN({commit}, {email, password}) {
@@ -21,6 +21,10 @@ const actions = {
     },
     DELETE_BOARD(_, {id}) {
         return board.destroy(id)
+    },
+    ADD_LIST ({dispatch, state}, {title, boardId, pos}) {
+      return list.create({title, boardId, pos})
+          .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
     },
     UPDATE_BOARD({dispatch, state}, {id, title, bgColor}) {
         return board.update(id, {title, bgColor})
