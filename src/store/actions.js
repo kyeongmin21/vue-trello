@@ -1,4 +1,4 @@
-import {board, auth, card, list} from "../api";
+import {auth, board, list, card} from "../api";
 
 const actions = {
     LOGIN({commit}, {email, password}) {

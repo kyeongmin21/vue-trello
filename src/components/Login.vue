@@ -32,6 +32,7 @@
 <script>
 import {auth, setAuthInHeader} from '../api'
 
+
 export default {
   name: 'Login',
   data() {
@@ -55,7 +56,9 @@ export default {
     onSubmit() {
       auth.login(this.email, this.password)
         .then(data => {
+          // localStorage에 토큰정보 저장
           localStorage.setItem('token', data.accessToken)
+          // 헤더값을 토큰으로 셋팅
           setAuthInHeader(data.accessToken)
           this.$router.push(this.rPath)
         })

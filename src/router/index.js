@@ -6,7 +6,6 @@ import store from '../store'
 Vue.use(VueRouter)
 
 const requireAuth = (to, from, next) => {
-  // const isAuth = localStorage.getItem('token')
   const loginPath = `/login?rPath=${encodeURIComponent(to.path)}`
   store.getters.isAuth ? next() : next(loginPath)
 }
@@ -16,7 +15,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    beforeEnter: requireAuth
+    // beforeEnter: requireAuth
   },
   {
     path: '/login',

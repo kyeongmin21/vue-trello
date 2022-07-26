@@ -26,9 +26,7 @@
   </div>
 </template>
 
-
 <script>
-
 import AddBoard from "./AddBoard";
 import { mapState, mapMutations, mapActions } from 'vuex'
 
