@@ -1,13 +1,30 @@
 <template>
   <div class="add-list">
-    <input type="text" class="form-control">
-
+    <input v-if="isAddList"
+           type="text"
+           class="form-control"
+           v-model="inputTitle"
+           ref="inputTitle">
+    <a v-else href=""
+       @click.prevent="onAddList">&plus; Add another list</a>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AddList"
+  name: "AddList",
+  data() {
+    return {
+      isAddList: false,
+      inputTitle: ''
+    }
+  },
+  methods: {
+    onAddList() {
+      this.isAddList = true
+      this.$nextTick(() => this.$refs.inputTitle.focus())
+    }
+  }
 }
 </script>
 

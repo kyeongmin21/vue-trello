@@ -21,6 +21,9 @@
             <div class="list-wrapper" v-for="list in board.lists" :key="list.pos">
               <List :data="list"></List>
             </div>
+            <div class="list-wrapper">
+              <AddList></AddList>
+            </div>
           </div>
         </div>
       </div>
@@ -38,6 +41,7 @@
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex'
 import List from './List'
+import AddList from './AddList'
 import dragula from 'dragula'
 import 'dragula/dist/dragula.css'
 import BoardSettings from "./BoardSettings"
@@ -46,6 +50,7 @@ export default {
   name: 'Board',
   components: {
     List,
+    AddList,
     BoardSettings
   },
   data() {
