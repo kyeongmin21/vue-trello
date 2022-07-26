@@ -5,6 +5,8 @@ const actions = {
         return auth.login(email, password)
             .then(({accessToken}) => commit('LOGIN', accessToken))
     },
+
+    // Board
     ADD_BOARD(_, {title}) {
         return board.create(title).then(data => data.item)
     },
@@ -19,17 +21,22 @@ const actions = {
             commit('SET_BOARD', data.item)
         })
     },
-    DELETE_BOARD(_, {id}) {
-        return board.destroy(id)
-    },
-    ADD_LIST ({dispatch, state}, {title, boardId, pos}) {
-      return list.create({title, boardId, pos})
-          .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
-    },
     UPDATE_BOARD({dispatch, state}, {id, title, bgColor}) {
         return board.update(id, {title, bgColor})
             .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
     },
+    DELETE_BOARD(_, {id}) {
+        return board.destroy(id)
+    },
+
+
+    // List
+    ADD_LIST ({dispatch, state}, {title, boardId, pos}) {
+        return list.create({title, boardId, pos})
+            .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
+    },
+
+    // Card
     ADD_CARD ({dispatch, state}, {title, listId, pos}) {
         return card.create(title, listId, pos)
             .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))

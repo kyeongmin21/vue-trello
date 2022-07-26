@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import {mapState, mapActions} from 'vuex'
+
 export default {
   name: "AddList",
   data() {
@@ -21,18 +23,35 @@ export default {
       inputTitle: ''
     }
   },
+  computed: {
+    ...mapState({
+      board: 'board'
+    })
+  },
   methods: {
+    ...mapActions(['ADD_LIST']),
     onAddList() {
       this.isAddList = true
       this.$nextTick(() => this.$refs.inputTitle.focus())
+    },
+    onSubmitTitle() {
+      this.inputTitle = this.inputTitle.trim()
+      // 만약에 this.inputTitle 빈값이라면, 리턴
+      if (!this.inputTitle) return this.restore()
+
+      const title = this.inputTitle
+      const boardId = this.board.id
+      const lastList = this.board.lists[this.board.lists.length - 1]
+      const pos = lastList ? lastList.pos * 2 : 65535
+
+      this.ADD_LIST({title, boardId, pos})
+      .then(() => this.restore())
     },
     restore() {
       this.isAddList = false
       this.inputTitle = ''
     },
-    onSubmitTitle() {
-      console.log('enter')
-    }
+
   }
 }
 </script>
