@@ -41,6 +41,9 @@ export const board = {
 export const list = {
     create(payload) {
         return request('POST', '/lists', payload)
+    },
+    update(id, payload) {
+        return request('put', `/lists/${id}`, payload)
     }
 }
 
