@@ -5,7 +5,9 @@
              v-if="isEditTitle"
              class="form-control input-title"
              ref="inputTitle"
-      v-model="inputTitle">
+      v-model="inputTitle"
+      @blur="onBlurTitle"
+      @keyup.enter="onSubmitTitle">
       <div v-else
            class="list-header-title"
            @click="onClickTitle">
@@ -33,7 +35,7 @@
 <script>
 import AddCard from "./AddCard"
 import CardItem from "./CardItem"
-
+import {mapActions} from 'vuex'
 export default {
   name: "List",
   components: {
@@ -53,10 +55,28 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['UPDATE_LIST']),
     onClickTitle() {
       this.isEditTitle = true
       // 다음 렌더링사이클에서 돌아가도록 nextTick 감싸준다.
       this.$nextTick(() => this.$refs.inputTitle.focus())
+    },
+    // 다른곳을 클릭했을 때도 수정한 값이 저장되게
+    onBlurTitle() {
+      this.isEditTitle = false
+    },
+    // 엔터치면 api 호출되게 하기
+    onSubmitTitle() {
+      this.onBlurTitle()
+
+      this.inputTitle = this.inputTitle.trim()
+      if (!this.inputTitle) return
+
+      const id = this.data.id
+      const title = this.inputTitle
+      if (title === this.data.title) return
+
+      this.UPDATE_LIST({id, title})
     }
   }
 }
