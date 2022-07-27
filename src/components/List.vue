@@ -72,6 +72,7 @@ export default {
       this.inputTitle = this.inputTitle.trim()
       if (!this.inputTitle) return
 
+      // api 호출하기 위한 파라미터 설정
       const id = this.data.id
       const title = this.inputTitle
       if (title === this.data.title) return
