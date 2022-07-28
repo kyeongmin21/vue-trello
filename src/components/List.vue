@@ -5,14 +5,15 @@
              v-if="isEditTitle"
              class="form-control input-title"
              ref="inputTitle"
-      v-model="inputTitle"
-      @blur="onBlurTitle"
-      @keyup.enter="onSubmitTitle">
+             v-model="inputTitle"
+             @blur="onBlurTitle"
+             @keyup.enter="onSubmitTitle">
       <div v-else
            class="list-header-title"
            @click="onClickTitle">
         {{ data.title }}
       </div>
+      <a href="" class="delete-list-btn" @click.prevent="onDeleteList">&times;</a>
     </div>
 
     <div class="card-list">
@@ -36,6 +37,7 @@
 import AddCard from "./AddCard"
 import CardItem from "./CardItem"
 import {mapActions} from 'vuex'
+
 export default {
   name: "List",
   components: {
@@ -55,7 +57,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['UPDATE_LIST']),
+    ...mapActions([
+      'UPDATE_LIST',
+      'DELETE_LIST'
+    ]),
     onClickTitle() {
       this.isEditTitle = true
       // 다음 렌더링사이클에서 돌아가도록 nextTick 감싸준다.
@@ -78,6 +83,10 @@ export default {
       if (title === this.data.title) return
 
       this.UPDATE_LIST({id, title})
+    },
+    onDeleteList() {
+      if (!window.confirm(`Delete ${this.data.title} list? `)) return
+      this.DELETE_LIST({id: this.data.id})
     }
   }
 }
