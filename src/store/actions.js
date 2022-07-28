@@ -39,6 +39,10 @@ const actions = {
         return list.update(id, {pos, title})
             .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
     },
+    DELETE_LIST({dispatch, state}, {id}) {
+        return list.destroy(id)
+            .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
+    },
 
     // Card
     ADD_CARD ({dispatch, state}, {title, listId, pos}) {
