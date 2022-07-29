@@ -6,17 +6,6 @@
 
 <script>
 export default {
-  name: 'NotFound',
-  components: {},
-  data() {
-    return {}
-  },
-  computed: {},
-  watch: {},
-  methods: {}
+  name: 'NotFound'
 }
 </script>
-
-<style>
-
-</style>
