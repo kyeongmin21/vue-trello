@@ -76,45 +76,7 @@ export default {
     this.SET_IS_SHOW_SETTINGS(false)
   },
   updated() {
-    if (this.dragularCards) this.dragularCards.destroy()
-    this.dragularCards = dragula([
-      // 유사배열로 만들어줌
-      ...Array.from(this.$el.querySelectorAll('.card-list'))
-    ]).on('drop', (el, wrapper) => {
-      // 어디를 이동해야할지 정보를 담는 카드
-      const targetCard = {
-        id: el.dataset.cardId * 1,
-        pos: 65535
-      }
-
-      let prevCard = null
-      let nextCard = null
-
-      Array.from(wrapper.querySelectorAll('.card-item'))
-        .forEach((el, idx, arr) => {
-          const cardId = el.dataset.cardId * 1
-          if (cardId === targetCard.id) {
-            prevCard = idx > 0 ? {
-              id: arr[idx - 1].dataset.cardId * 1,
-              pos: arr[idx - 1].dataset.cardPos * 1,
-            } : null
-            nextCard = idx < arr.length - 1 ? {
-              id: arr[idx + 1].dataset.cardId * 1,
-              pos: arr[idx + 1].dataset.cardPos * 1
-            } : null
-          }
-        })
-
-      // 앞에 없고 뒤에만 있으니깐 : 맨앞에 있다는 뜻
-      if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
-      // 맨뒤에 있는 카드
-      else if (prevCard && !nextCard) targetCard.pos = prevCard.pos * 2
-      // 중간에 있는 카드
-      else if (prevCard && nextCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
-
-      this.UPDATE_CARD(targetCard)
-
-    })
+    this.updateCard()
   },
   methods: {
     ...mapMutations(['SET_THEMA', 'SET_IS_SHOW_SETTINGS']),
@@ -144,6 +106,47 @@ export default {
       if (title === this.board.title) return
 
       this.UPDATE_BOARD({id, title})
+    },
+    updateCard() {
+      if (this.dragularCards) this.dragularCards.destroy()
+      this.dragularCards = dragula([
+        // 유사배열로 만들어줌
+        ...Array.from(this.$el.querySelectorAll('.card-list'))
+      ]).on('drop', (el, wrapper) => {
+        // 어디를 이동해야할지 정보를 담는 카드
+        const targetCard = {
+          id: el.dataset.cardId * 1,
+          pos: 65535
+        }
+
+        let prevCard = null
+        let nextCard = null
+
+        Array.from(wrapper.querySelectorAll('.card-item'))
+          .forEach((el, idx, arr) => {
+            const cardId = el.dataset.cardId * 1
+            if (cardId === targetCard.id) {
+              prevCard = idx > 0 ? {
+                id: arr[idx - 1].dataset.cardId * 1,
+                pos: arr[idx - 1].dataset.cardPos * 1,
+              } : null
+              nextCard = idx < arr.length - 1 ? {
+                id: arr[idx + 1].dataset.cardId * 1,
+                pos: arr[idx + 1].dataset.cardPos * 1
+              } : null
+            }
+          })
+
+        // 앞에 없고 뒤에만 있으니깐 : 맨앞에 있다는 뜻
+        if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
+        // 맨뒤에 있는 카드
+        else if (prevCard && !nextCard) targetCard.pos = prevCard.pos * 2
+        // 중간에 있는 카드
+        else if (prevCard && nextCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
+
+        this.UPDATE_CARD(targetCard)
+
+      })
     }
   }
 }
