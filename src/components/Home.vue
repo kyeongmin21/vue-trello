@@ -6,8 +6,7 @@
            ref="boardItem"
            v-for="board in boards"
            :key="board.id"
-           :data-bgcolor="board.bgColor"
-      >
+           :data-bgcolor="board.bgColor" >
         <router-link :to="`/board/${board.id}`">
           <div class="board-item-title">{{ board.title }}</div>
         </router-link>
