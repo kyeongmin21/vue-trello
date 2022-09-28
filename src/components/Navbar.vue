@@ -4,44 +4,27 @@
       <router-link to="/">Home</router-link>
     </div>
     <div class="header-auth">
-      <a href="" v-if="isAuth" @click.prevent="logout">Logout</a>
+      <a v-if="isAuth" @click.prevent="logout" >Logout</a>
       <router-link v-else to="/login">Login</router-link>
     </div>
   </nav>
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex'
+import {setAuthInHeader} from "../api";
 
 export default {
-  name: 'Navbar',
+  name: "Navbar",
   computed: {
-    ...mapState({
-      navbarColor: 'navbarColor',
-      bodyColor: 'bodyColor'
-    }),
-    ...mapGetters(['isAuth'])
-  },
-  watch: {
-    'bodyColor' : 'updateThema'
-  },
-  mounted() {
-    this.updateThema()
+    isAuth () {
+      return !!localStorage.getItem('token')
+    }
   },
   methods: {
-    ...mapMutations(['LOGOUT']),
     logout() {
-      this.LOGOUT()
+      delete localStorage.token
+      setAuthInHeader(null)
       this.$router.push('/login')
-    },
-    updateThema() {
-      this.$el.style.backgroundColor = this.navbarColor
-
-      const body = document.querySelector('body')
-      const container = document.querySelector('.container')
-
-      if (body) body.style.backgroundColor = this.bodyColor
-      if (container) container.style.backgroundColor = this.bodyColor
     }
   }
 }
@@ -54,7 +37,6 @@ export default {
   height: 32px;
   padding: 4px;
 }
-
 .header a {
   display: block;
   height: 30px;
@@ -62,7 +44,6 @@ export default {
   text-decoration: none;
   color: rgba(255, 255, 255, .5);
 }
-
 .header-logo {
   position: absolute;
   left: 50%;
@@ -72,18 +53,15 @@ export default {
   font-weight: bolder;
   font-size: 24px;
 }
-
 .header-logo a:hover,
 .header-logo a:focus {
   color: rgba(255, 255, 255, .9);
 }
-
 .header-auth {
   position: absolute;
   right: 15px;
   top: 5px;
 }
-
 .header-auth a {
   border-radius: 2px;
   padding: 0 10px;
@@ -91,7 +69,6 @@ export default {
   color: white;
   transition: all .3s;
 }
-
 .header-auth a:hover,
 .header-auth a:focus {
   background-color: rgba(255, 255, 255, .3);

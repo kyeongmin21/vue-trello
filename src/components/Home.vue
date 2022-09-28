@@ -6,15 +6,15 @@
            ref="boardItem"
            v-for="board in boards"
            :key="board.id"
-           :data-bgcolor="board.bgColor"
-      >
+           :data-bgcolor="board.bgColor">
         <router-link :to="`/board/${board.id}`">
           <div class="board-item-title">{{ board.title }}</div>
         </router-link>
       </div>
+
       <div class="board-item">
-        <a class="new-board-btn" href=""
-           @click.prevent="SET_IS_ADD_BOARD(true)">
+        <a class="new-board-btn"
+           @click.prevent="addBoard">
           Create new board...
         </a>
       </div>
@@ -23,48 +23,61 @@
     <AddBoard v-if="isAddBoard"
               @submit="onAddBoard">
     </AddBoard>
+
   </div>
 </template>
 
 <script>
+import {board} from '../api';
 import AddBoard from "./AddBoard";
-import { mapState, mapMutations, mapActions } from 'vuex'
+import {mapState, mapMutations } from 'vuex';
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    AddBoard,
+    AddBoard
   },
   data() {
     return {
       loading: false,
-      error: '',
+      boards: [],
+    }
+  },
+  computed: {
+    ...mapState(['isAddBoard']),
+    isAddBoard() {
+      return this.$store.state.isAddBoard
     }
   },
   created() {
     this.fetchData()
-    this.SET_THEMA()
   },
   updated() {
-    this.$refs.boardItem.forEach(element => {
-      element.style.backgroundColor = element.dataset.bgcolor
+    this.$refs.boardItem.forEach(el => {
+      el.style.backgroundColor = el.dataset.bgcolor
     })
   },
-  computed: {
-      ...mapState(['isAddBoard', 'boards'])
-  },
   methods: {
-    ...mapMutations(['SET_IS_ADD_BOARD', 'SET_THEMA']),
-    ...mapActions(['FETCH_BOARDS']),
-    onAddBoard() {
-      this.fetchData()
-    },
+    ...mapMutations(['SET_IS_ADD_BOARD']),
     fetchData() {
       this.loading = true
-      this.FETCH_BOARDS().finally(() => {
-          this.loading = false
-        })
+
+      board.fetch()
+      .then((res) => {
+        this.boards = res.list
+      })
+      .finally(() => {
+        this.loading = false
+      })
     },
+    addBoard() {
+      // this.isAddBoard = true
+      // this.$store.commit('SET_IS_ADD_BOARD', true)
+      this.SET_IS_ADD_BOARD(true)
+    },
+    onAddBoard() {
+      this.fetchData()
+    }
   }
 }
 </script>
@@ -75,40 +88,34 @@ export default {
   font-size: 18px;
   font-weight: bold;
 }
-
 .board-list {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
 }
-
 .board-item {
   width: 23%;
   height: 100px;
   margin: 0 2% 20px 0;
   border-radius: 3px;
 }
-
 .board-item a {
   text-decoration: none;
   display: block;
   width: 100%;
   height: 100%;
 }
-
 .board-item a:hover,
 .board-item a:focus {
   background-color: rgba(0, 0, 0, .3);
   color: #666;
 }
-
 .board-item-title {
   color: #fff;
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
 }
-
 .board-item a.new-board-btn {
   display: table-cell;
   vertical-align: middle;
@@ -119,7 +126,6 @@ export default {
   background: #888;
   font-weight: 700;
 }
-
 .modal-default-button {
   float: right;
   text-decoration: none;

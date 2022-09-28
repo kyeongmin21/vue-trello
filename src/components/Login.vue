@@ -30,11 +30,10 @@
 </template>
 
 <script>
-import {auth, setAuthInHeader} from '../api'
-
+import {auth, setAuthInHeader} from '../api';
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
       email: '',
@@ -49,22 +48,19 @@ export default {
     }
   },
   created() {
-    // 아무것도 없을 때는 / 홈으로 이동
     this.rPath = this.$route.query.rPath || '/'
   },
   methods: {
     onSubmit() {
       auth.login(this.email, this.password)
-        .then(data => {
-          // localStorage에 토큰정보 저장
-          localStorage.setItem('token', data.accessToken)
-          // 헤더값을 토큰으로 셋팅
-          setAuthInHeader(data.accessToken)
-          this.$router.push(this.rPath)
-        })
-        .catch(err => {
-          this.error = err.data.error
-        })
+      .then(data => {
+        localStorage.setItem('token', data.accessToken)
+        setAuthInHeader(data.accessToken)
+        this.$router.push(this.rPath)
+      })
+      .catch(err => {
+        this.error = err.data.error
+      })
     }
   }
 }
@@ -75,7 +71,6 @@ export default {
   width: 400px;
   margin: 0 auto;
 }
-
 .error {
   color: #f00;
 }

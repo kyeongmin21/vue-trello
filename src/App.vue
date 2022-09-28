@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <!-- header -->
-    <navbar></navbar>
-    <!-- 보여지는 컴포넌트들 -->
-    <router-view class="container"></router-view>
+    <Navbar />
+    <router-view />
   </div>
 </template>
 
@@ -12,9 +10,7 @@
 
  export default {
    name: 'app',
-   components: {
-     Navbar
-   },
+   components: {Navbar},
    data () {
      return {
 

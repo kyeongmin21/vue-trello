@@ -33,11 +33,11 @@
 
 <script>
 export default {
-  name: "modal"
+  name: "Modal"
 }
 </script>
 
-<style scoped>
+<style>
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -74,23 +74,6 @@ export default {
 .modal-body {
   margin: 20px 0;
 }
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-/*
-.modal-enter {
-  opacity: 0;
-}
-
-.modal-leave-active {
-  opacity: 0;
-}*/
 
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {

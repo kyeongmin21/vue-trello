@@ -1,11 +1,15 @@
 <template>
   <div>
-    <h1>NotFound</h1>
+    notfound
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NotFound'
+  name: "NotFound"
 }
 </script>
+
+<style scoped>
+
+</style>
