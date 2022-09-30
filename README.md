@@ -32,7 +32,12 @@
 - Ajax - HttpXMLRequst 객체
 - 보드조회 API 연동
 
-## 인증 API
+## 인증
+- 네비게이션 가드
+  - 페이지에 따라서 권한이 필요할 때 : requireAuth 
+  
+- 로그인 
+  - 
 
 ## 로그아웃
 
