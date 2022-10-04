@@ -32,7 +32,13 @@
 - Ajax - HttpXMLRequst 객체
 - 보드조회 API 연동
 
-## 인증 API
+## 인증
+- 네비게이션 가드
+  - 페이지에 따라서 권한이 필요할 때 : requireAuth 
+  
+- 로그인 
+  - 성공하면 accessToken 을 알 수 있고, 실패하면 401 권한 에러
+  - setAuthInheader : 헤더에 토큰값을 담아 전달
 
 ## 로그아웃
 
