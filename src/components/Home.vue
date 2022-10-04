@@ -20,17 +20,14 @@
       </div>
     </div>
 
-    <AddBoard v-if="isAddBoard"
-              @submit="onAddBoard">
-    </AddBoard>
+    <AddBoard v-if="isAddBoard"/>
 
   </div>
 </template>
 
 <script>
-import {board} from '../api';
 import AddBoard from "./AddBoard";
-import {mapState, mapMutations } from 'vuex';
+import {mapState, mapMutations, mapActions} from 'vuex';
 
 export default {
   name: "Home",
@@ -40,11 +37,10 @@ export default {
   data() {
     return {
       loading: false,
-      boards: [],
     }
   },
   computed: {
-    ...mapState(['isAddBoard']),
+    ...mapState(['isAddBoard', 'boards']),
     isAddBoard() {
       return this.$store.state.isAddBoard
     }
@@ -59,25 +55,19 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_IS_ADD_BOARD']),
+    ...mapActions(['FETCH_BOARDS']),
     fetchData() {
       this.loading = true
-
-      board.fetch()
-      .then((res) => {
-        this.boards = res.list
-      })
-      .finally(() => {
-        this.loading = false
-      })
+      this.FETCH_BOARDS()
+        .finally(() => {
+          this.loading = false
+        })
     },
     addBoard() {
       // this.isAddBoard = true
       // this.$store.commit('SET_IS_ADD_BOARD', true)
       this.SET_IS_ADD_BOARD(true)
     },
-    onAddBoard() {
-      this.fetchData()
-    }
   }
 }
 </script>
@@ -88,34 +78,40 @@ export default {
   font-size: 18px;
   font-weight: bold;
 }
+
 .board-list {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
 }
+
 .board-item {
   width: 23%;
   height: 100px;
   margin: 0 2% 20px 0;
   border-radius: 3px;
 }
+
 .board-item a {
   text-decoration: none;
   display: block;
   width: 100%;
   height: 100%;
 }
+
 .board-item a:hover,
 .board-item a:focus {
   background-color: rgba(0, 0, 0, .3);
   color: #666;
 }
+
 .board-item-title {
   color: #fff;
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
 }
+
 .board-item a.new-board-btn {
   display: table-cell;
   vertical-align: middle;
@@ -126,6 +122,7 @@ export default {
   background: #888;
   font-weight: 700;
 }
+
 .modal-default-button {
   float: right;
   text-decoration: none;
