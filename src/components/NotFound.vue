@@ -1,6 +1,6 @@
 <template>
   <div>
-    notfound
+    <h2>not found</h2>
   </div>
 </template>
 
@@ -9,7 +9,3 @@ export default {
   name: "NotFound"
 }
 </script>
-
-<style scoped>
-
-</style>
