@@ -4,26 +4,24 @@
       <router-link to="/">Home</router-link>
     </div>
     <div class="header-auth">
-      <a v-if="isAuth" @click.prevent="logout" >Logout</a>
+      <a v-if="isAuth" @click.prevent="logout">Logout</a>
       <router-link v-else to="/login">Login</router-link>
     </div>
   </nav>
 </template>
 
 <script>
-import {setAuthInHeader} from "../api";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   name: "Navbar",
   computed: {
-    isAuth () {
-      return !!localStorage.getItem('token')
-    }
+    ...mapGetters(['isAuth']),
   },
   methods: {
+    ...mapMutations(['LOGOUT']),
     logout() {
-      delete localStorage.token
-      setAuthInHeader(null)
+      this.LOGOUT()
       this.$router.push('/login')
     }
   }
@@ -37,6 +35,7 @@ export default {
   height: 32px;
   padding: 4px;
 }
+
 .header a {
   display: block;
   height: 30px;
@@ -44,6 +43,7 @@ export default {
   text-decoration: none;
   color: rgba(255, 255, 255, .5);
 }
+
 .header-logo {
   position: absolute;
   left: 50%;
@@ -53,15 +53,19 @@ export default {
   font-weight: bolder;
   font-size: 24px;
 }
+
 .header-logo a:hover,
 .header-logo a:focus {
   color: rgba(255, 255, 255, .9);
 }
+
 .header-auth {
   position: absolute;
   right: 15px;
   top: 5px;
+  cursor: pointer;
 }
+
 .header-auth a {
   border-radius: 2px;
   padding: 0 10px;
@@ -69,6 +73,7 @@ export default {
   color: white;
   transition: all .3s;
 }
+
 .header-auth a:hover,
 .header-auth a:focus {
   background-color: rgba(255, 255, 255, .3);
