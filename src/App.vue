@@ -1,25 +1,23 @@
 <template>
   <div id="app">
-    <Navbar />
-    <router-view />
+    <Navbar/>
+    <router-view class="container"/>
   </div>
 </template>
 
 <script>
- import Navbar from "./components/Navbar";
+import Navbar from "@/components/Navbar";
 
- export default {
-   name: 'app',
-   components: {Navbar},
-   data () {
-     return {
-
-     }
-   }
- }
+export default {
+  name: 'app',
+  components: {Navbar},
+  data() {
+    return {}
+  }
+}
 </script>
 
-<style>
+<style lang="scss">
 html, body, #app {
   height: 100%;
   margin: 0px;
