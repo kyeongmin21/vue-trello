@@ -19,14 +19,15 @@
               :class="{ 'btn-success': valid }"
               form="add-board-form"
               :disabled="!valid">
-        Create Board</button>
+        Create Board
+      </button>
     </div>
   </modal>
 </template>
 
 <script>
 import Modal from './Modal'
-import {mapMutations, mapActions} from 'vuex'
+import {mapActions, mapMutations} from "vuex"
 
 export default {
   name: "AddBoard",
@@ -39,13 +40,13 @@ export default {
       valid: false
     }
   },
-  mounted() {
-    this.$refs.input.focus()
-  },
   watch: {
     input(value) {
       this.valid = value.trim().length > 0
     }
+  },
+  mounted() {
+    this.$refs.input.focus()
   },
   methods: {
     ...mapMutations(['SET_IS_ADD_BOARD']),
@@ -54,12 +55,9 @@ export default {
       this.SET_IS_ADD_BOARD(false)
     },
     addBoard() {
-      this.SET_IS_ADD_BOARD(false)
-      //this.$store.dispatch('ADD_BOARD', {title: this.input})
+      this.close()
       this.ADD_BOARD({title: this.input})
-        .then(() => {
-        this.FETCH_BOARDS()
-      })
+        .then(({id}) => this.$router.push(`/board/${id}`))
     }
   }
 }
