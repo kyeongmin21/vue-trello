@@ -1,14 +1,16 @@
 <template>
   <div>
-    <h3>Card</h3>
-    <div v-if="loading">loading card...</div>
-    <div v-else>cid : {{ cid }}</div>
+    <h2>card</h2>
+    <div v-if="loading">loading card..</div>
+    <div v-else>
+      cid: {{cid}}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Card.vue",
+  name: "Card",
   data() {
     return {
       cid: 0,
@@ -17,6 +19,7 @@ export default {
   },
   watch: {
     $route() {
+      // cid가 변경될 때마다 호출
       this.fetchData()
     }
   },
@@ -35,6 +38,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>
