@@ -9,7 +9,11 @@ const store = new Vuex.Store({
     isAddBoard: false,
     boards: [],
     board: {},
-    token: null
+    card: {},
+    token: null,
+    bodyColor: '#fff',
+    navbarColor: '#026aa7',
+    isShowMenu: false
   },
   getters: {
     isAuth(state) {
@@ -36,6 +40,16 @@ const store = new Vuex.Store({
       state.token = null
       delete localStorage.token
       setAuthInHeader(null)
+    },
+    SET_CARD(state, card) {
+      state.card = card
+    },
+    SET_THEME(state, color) {
+      state.bodyColor = color || '#fff'
+      state.navbarColor = color ? 'rgba(0,0,0,.15)' : '#026aa7'
+    },
+    SET_IS_SHOW_BOARD_MENU(state, toggle) {
+      state.isShowMenu = toggle
     }
   },
   actions: {
@@ -55,6 +69,9 @@ const store = new Vuex.Store({
           commit('SET_BOARD', data.item)
         })
     },
+    DELETE_BOARD(_, {id}) {
+      return board.destroy(id)
+    },
     LOGIN({commit}, {email, password}) {
       return auth.login(email, password)
         .then(({accessToken}) => {
@@ -63,7 +80,19 @@ const store = new Vuex.Store({
     },
     ADD_CARD({dispatch, state}, {title, listId, pos}) {
       return card.create(title, listId, pos)
-        .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
+        .then(() => dispatch('FETCH_BOARD', { id: state.board.id }))
+    },
+    FETCH_CARD({commit}, {id}) {
+      return card.fetch(id)
+        .then(data => commit('SET_CARD', data.item))
+    },
+    UPDATE_CARD({dispatch, state}, {id, title, description, pos, listId}) {
+      return card.update(id, {title, description, pos, listId})
+        .then(() => dispatch('FETCH_BOARD', { id: state.board.id }))
+    },
+    DELETE_CARD({dispatch, state}, {id}) {
+      return card.delete(id)
+        .then(() => dispatch('FETCH_BOARD', { id: state.board.id }))
     }
   },
 })
