@@ -65,7 +65,7 @@ export default {
     // 유사배열을 NodeList->Array 하고 마우스를 놓았을 때 콘솔 출력
     this.dragulaCards = dragula([
       ...Array.from(this.$el.querySelectorAll('.card-list'))
-    ]).on('drop', (el, wrapper, target, siblings) => {
+    ]).on('drop', (el, wrapper) => {
       const targetCard = {
         id: el.dataset.cardId * 1,
         pos: 65545,

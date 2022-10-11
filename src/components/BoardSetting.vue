@@ -57,7 +57,7 @@ export default {
     onClickChangeColor(el) {
       const id = this.board.id
       const bgColor = el.target.dataset.value
-      this.UPDATE_BOARD({id, bgColor}).then(_=> {
+      this.UPDATE_BOARD({id, bgColor}).then(() => {
         document.querySelector('body').style.backgroundColor = this.board.bgColor
         document.querySelector('.header').style.backgroundColor = 'rgba(0,0,0,.15)'
       })
