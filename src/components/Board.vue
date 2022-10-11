@@ -5,6 +5,10 @@
 
         <div class="board-header">
           <span class="board-title">{{ board.title }}</span>
+          <a href="" class="board-header-btn"
+             @click.prevent="onShowSettings">
+            Show Menu
+          </a>
         </div>
 
         <div class="list-section-wrapper">
@@ -19,38 +23,91 @@
 
       </div>
     </div>
+
+    <BoardSetting v-if="isShowMenu === true" />
+    <router-view />
+
   </div>
 </template>
 
 <script>
-import {mapState, mapActions} from "vuex"
+import {mapState, mapMutations, mapActions} from "vuex"
+import dragula from 'dragula'
+import 'dragula/dist/dragula.css'
 import List from '@/components/List'
+import BoardSetting from "@/components/BoardSetting";
 
 export default {
   name: "Board",
   components: {
-    List
+    List,
+    BoardSetting
   },
   data() {
     return {
       bid: 0,
-      loading: false
+      loading: false,
+      dragulaCards: null
     }
   },
   computed: {
-    ...mapState(['board']),
+    ...mapState(['board', 'isShowMenu']),
   },
   created() {
-    this.fetchData()
+    this.fetchData().then(() => this.SET_THEME(this.board.bgColor))
+    // board 페이지에 들어올 때, 초기셋팅 menu close
+    this.SET_IS_SHOW_BOARD_MENU(false)
+  },
+  updated() {
+    // dragulaCards 초기화 작업
+    if (this.dragulaCards) this.dragulaCards.destroy()
+
+    // 유사배열을 NodeList->Array 하고 마우스를 놓았을 때 콘솔 출력
+    this.dragulaCards = dragula([
+      ...Array.from(this.$el.querySelectorAll('.card-list'))
+    ]).on('drop', (el, wrapper, target, siblings) => {
+      const targetCard = {
+        id: el.dataset.cardId * 1,
+        pos: 65545,
+      }
+      let prevCard = null
+      let nextCard = null
+      Array.from(wrapper.querySelectorAll('.card-item'))
+        .forEach((el, idx, arr) => {
+          const cardId = el.dataset.cardId * 1
+          if(cardId === targetCard.id) {
+            prevCard = idx > 0 ? {
+              id: arr[idx -1].dataset.cardId * 1,
+              pos: arr[idx -1].dataset.cardPos * 1
+            } : null
+            nextCard = idx < arr.length - 1 ? {
+              id: arr[idx + 1].dataset.cardId * 1,
+              pos: arr[idx + 1].dataset.cardPos * 1
+            } : null
+          }
+        })
+
+      if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
+      else if(!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
+      else if(prevCard && nextCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
+
+      this.UPDATE_CARD(targetCard)
+    })
   },
   methods: {
-    ...mapActions(['FETCH_BOARD']),
-    fetchData: function () {
+    ...mapMutations(['SET_THEME', 'SET_IS_SHOW_BOARD_MENU']),
+    ...mapActions(['FETCH_BOARD', 'UPDATE_CARD']),
+    fetchData() {
       this.loading = true
-      this.FETCH_BOARD({id: this.$route.params.bid})
+
+      // this.fetchData 가 promise 를 반환해줘야 실행할 수 있어서 return 해줘야함
+      return this.FETCH_BOARD({id: this.$route.params.bid})
         .then(() => {
           this.loading = false
         })
+    },
+    onShowSettings() {
+      this.SET_IS_SHOW_BOARD_MENU(true)
     }
   }
 }
@@ -80,6 +137,7 @@ export default {
   width: 200px;
 }
 .board-header-btn {
+  float: right;
   border-radius: 4px;
   padding: 2px 10px;
   height: 30px;
