@@ -72,12 +72,18 @@ const store = new Vuex.Store({
     DELETE_BOARD(_, {id}) {
       return board.destroy(id)
     },
+    UPDATE_BOARD({state, dispatch}, {id, title, bgColor}) {
+      return board.update(id, {title, bgColor})
+        .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
+    },
+
     LOGIN({commit}, {email, password}) {
       return auth.login(email, password)
         .then(({accessToken}) => {
           commit('LOGIN', accessToken)
         })
     },
+
     ADD_CARD({dispatch, state}, {title, listId, pos}) {
       return card.create(title, listId, pos)
         .then(() => dispatch('FETCH_BOARD', { id: state.board.id }))
