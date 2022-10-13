@@ -4,7 +4,17 @@
       <div class="board">
 
         <div class="board-header">
-          <span class="board-title">{{ board.title }}</span>
+          <input v-if="isEditTitle"
+                 type="text"
+                 class="form-control"
+                 v-model="inputTitle"
+                 ref="inputTitle"
+                 @blur="onSubmitTitle"
+                 @keyup.enter="onSubmitTitle"/>
+          <span v-else class="board-title"
+                @click="onClickTitle">
+               {{ board.title }}
+          </span>
           <a href="" class="board-header-btn"
              @click.prevent="onShowSettings">
             Show Menu
@@ -24,8 +34,8 @@
       </div>
     </div>
 
-    <BoardSetting v-if="isShowMenu === true" />
-    <router-view />
+    <BoardSetting v-if="isShowMenu === true"/>
+    <router-view/>
 
   </div>
 </template>
@@ -47,14 +57,19 @@ export default {
     return {
       bid: 0,
       loading: false,
-      dragulaCards: null
+      dragulaCards: null,
+      isEditTitle: false,
+      inputTitle: ''
     }
   },
   computed: {
     ...mapState(['board', 'isShowMenu']),
   },
   created() {
-    this.fetchData().then(() => this.SET_THEME(this.board.bgColor))
+    this.fetchData().then(() => {
+      this.inputTitle = this.board.title
+      this.SET_THEME(this.board.bgColor)
+    })
     // board 페이지에 들어올 때, 초기셋팅 menu close
     this.SET_IS_SHOW_BOARD_MENU(false)
   },
@@ -75,10 +90,10 @@ export default {
       Array.from(wrapper.querySelectorAll('.card-item'))
         .forEach((el, idx, arr) => {
           const cardId = el.dataset.cardId * 1
-          if(cardId === targetCard.id) {
+          if (cardId === targetCard.id) {
             prevCard = idx > 0 ? {
-              id: arr[idx -1].dataset.cardId * 1,
-              pos: arr[idx -1].dataset.cardPos * 1
+              id: arr[idx - 1].dataset.cardId * 1,
+              pos: arr[idx - 1].dataset.cardPos * 1
             } : null
             nextCard = idx < arr.length - 1 ? {
               id: arr[idx + 1].dataset.cardId * 1,
@@ -88,15 +103,15 @@ export default {
         })
 
       if (!prevCard && nextCard) targetCard.pos = nextCard.pos / 2
-      else if(!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
-      else if(prevCard && nextCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
+      else if (!nextCard && prevCard) targetCard.pos = prevCard.pos * 2
+      else if (prevCard && nextCard) targetCard.pos = (prevCard.pos + nextCard.pos) / 2
 
       this.UPDATE_CARD(targetCard)
     })
   },
   methods: {
     ...mapMutations(['SET_THEME', 'SET_IS_SHOW_BOARD_MENU']),
-    ...mapActions(['FETCH_BOARD', 'UPDATE_CARD']),
+    ...mapActions(['FETCH_BOARD', 'UPDATE_CARD', 'UPDATE_BOARD']),
     fetchData() {
       this.loading = true
 
@@ -108,6 +123,22 @@ export default {
     },
     onShowSettings() {
       this.SET_IS_SHOW_BOARD_MENU(true)
+    },
+    onClickTitle() {
+      this.isEditTitle = true
+      // 시간을 지연시켜주는 nextTick
+      this.$nextTick(() => this.$refs.inputTitle.focus())
+    },
+    onSubmitTitle() {
+      this.isEditTitle = false
+
+      this.inputTitle = this.inputTitle.trim()
+      if (!this.inputTitle) return
+
+      const id = this.board.id
+      const title = this.inputTitle
+      if (title === this.board.title) return
+      this.UPDATE_BOARD({id, title})
     }
   }
 }
@@ -121,11 +152,13 @@ export default {
   right: 0;
   left: 0;
 }
+
 .board {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
+
 .board-header {
   flex: none;
   padding: 8px 4px 8px 8px;
@@ -133,9 +166,11 @@ export default {
   height: 32px;
   line-height: 32px;
 }
+
 .board-header input[type=text] {
   width: 200px;
 }
+
 .board-header-btn {
   float: right;
   border-radius: 4px;
@@ -145,24 +180,29 @@ export default {
   display: inline-block;
   color: #fff;
 }
+
 .board-header-btn:hover,
 .board-header-btn:focus {
-  background-color: rgba(0,0,0,.15);
+  background-color: rgba(0, 0, 0, .15);
   cursor: pointer;
 }
+
 .board-title {
   font-weight: 700;
   font-size: 18px;
 }
+
 .show-menu {
   font-size: 14px;
   position: absolute;
   right: 15px;
 }
+
 .list-section-wrapper {
   flex-grow: 1;
   position: relative;
 }
+
 .list-section {
   position: absolute;
   top: 0;
@@ -174,6 +214,7 @@ export default {
   white-space: nowrap;
   padding: 0 10px;
 }
+
 .list-wrapper {
   display: inline-block;
   height: 100%;
@@ -181,9 +222,11 @@ export default {
   vertical-align: top;
   margin-right: 5px;
 }
+
 .card-item.gu-transit {
   background-color: #555 !important;
 }
+
 .card-item.gu-mirror {
   opacity: 1 !important;
   background-color: #fff !important;
