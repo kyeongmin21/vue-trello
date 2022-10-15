@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {board, auth, card, setAuthInHeader} from '@/api';
+import {board, auth, list, card, setAuthInHeader} from '@/api';
 
 Vue.use(Vuex)
 
@@ -82,6 +82,11 @@ const store = new Vuex.Store({
         .then(({accessToken}) => {
           commit('LOGIN', accessToken)
         })
+    },
+
+    ADD_LIST({dispatch, state}, {title, boardId, pos}) {
+      return list.create({title, boardId, pos})
+        .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
     },
 
     ADD_CARD({dispatch, state}, {title, listId, pos}) {

@@ -28,6 +28,9 @@
                  :key="list.pos">
               <List :data="list"/>
             </div>
+            <div class="list-wrapper">
+              <AddList />
+            </div>
           </div>
         </div>
 
@@ -45,12 +48,15 @@ import {mapState, mapMutations, mapActions} from "vuex"
 import dragula from 'dragula'
 import 'dragula/dist/dragula.css'
 import List from '@/components/List'
+import AddList from '@/components/AddList'
 import BoardSetting from "@/components/BoardSetting";
+
 
 export default {
   name: "Board",
   components: {
     List,
+    AddList,
     BoardSetting
   },
   data() {
