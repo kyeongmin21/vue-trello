@@ -1,9 +1,16 @@
 <template>
   <div class="list">
     <div class="list-header">
-      <div class="list-header-title">
-        {{ data.title }}
-      </div>
+      <input v-if="isEditTitle"
+             type="text"
+             ref="inputTitle"
+             v-model="inputTitle"
+             @blur="onBlurTitle"
+             @keyup.enter="onSubmitTitle"
+             class="form-control input-title" >
+      <div v-else
+           class="list-header-title"
+      @click="onClickTitle">{{ data.title }}</div>
     </div>
 
     <div class="card-list">
@@ -25,6 +32,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 import AddCard from "@/components/AddCard"
 import CardItem from "@/components/CardItem"
 
@@ -35,14 +43,39 @@ export default {
     AddCard,
     CardItem
   },
+  created() {
+    this.inputTitle = this.data.title
+  },
   data() {
     return {
-      isAddCard: false
+      isAddCard: false,
+      isEditTitle: false,
+      inputTitle: ''
     }
   },
   methods: {
+    ...mapActions(['UPDATE_LIST']),
     close() {
       this.isAddCard = false
+    },
+    onClickTitle() {
+      this.isEditTitle = true
+      this.$nextTick(() => this.$refs.inputTitle.focus())
+    },
+    onBlurTitle() {
+      this.isEditTitle = false
+    },
+    onSubmitTitle() {
+      this.onBlurTitle()
+      //api 호출이 있어야함
+      this.inputTitle = this.inputTitle.trim()
+      if (!this.inputTitle) return
+
+      const id = this.data.id
+      const title = this.inputTitle
+      if(title === this.data.title) return
+
+      this.UPDATE_LIST({id, title})
     }
   }
 }

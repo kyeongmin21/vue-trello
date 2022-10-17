@@ -43,9 +43,7 @@ export default {
       const title = this.inputTitle
       const boardId = this.board.id
       const lastList = this.board.lists[this.board.lists.length - 1]
-
       const pos = lastList ? lastList.pos * 2 : 65535
-      console.log('pos', pos)
 
       this.ADD_LIST({title, boardId, pos})
         .then(() => this.restore())
