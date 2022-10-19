@@ -77,12 +77,14 @@ const store = new Vuex.Store({
         .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
     },
 
+
     LOGIN({commit}, {email, password}) {
       return auth.login(email, password)
         .then(({accessToken}) => {
           commit('LOGIN', accessToken)
         })
     },
+
 
     ADD_LIST({dispatch, state}, {title, boardId, pos}) {
       return list.create({title, boardId, pos})
@@ -92,6 +94,11 @@ const store = new Vuex.Store({
       return list.update(id, {pos, title})
         .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
     },
+    DELETE_LIST({dispatch, state}, {id}) {
+      return list.delete(id)
+        .then(() => dispatch('FETCH_BOARD', {id: state.board.id}))
+    },
+
 
     ADD_CARD({dispatch, state}, {title, listId, pos}) {
       return card.create(title, listId, pos)

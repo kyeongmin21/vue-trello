@@ -7,14 +7,16 @@
              v-model="inputTitle"
              @blur="onBlurTitle"
              @keyup.enter="onSubmitTitle"
-             class="form-control input-title" >
+             class="form-control input-title">
       <div v-else
            class="list-header-title"
-      @click="onClickTitle">{{ data.title }}</div>
+           @click="onClickTitle">{{ data.title }}
+      </div>
+      <a href="" class="delete-list-btn" @click.prevent="onDeleteList">&times;</a>
     </div>
 
     <div class="card-list">
-      <CardItem v-for="card in data.cards" :key="card.id" :data="card" />
+      <CardItem v-for="card in data.cards" :key="card.id" :data="card"/>
     </div>
 
     <div v-if="isAddCard">
@@ -54,7 +56,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['UPDATE_LIST']),
+    ...mapActions(['UPDATE_LIST', 'DELETE_LIST']),
     close() {
       this.isAddCard = false
     },
@@ -73,9 +75,13 @@ export default {
 
       const id = this.data.id
       const title = this.inputTitle
-      if(title === this.data.title) return
+      if (title === this.data.title) return
 
       this.UPDATE_LIST({id, title})
+    },
+    onDeleteList() {
+      if (!window.confirm(`delete ${this.data.title} list ?`)) return
+      this.DELETE_LIST({id: this.data.id})
     }
   }
 }
