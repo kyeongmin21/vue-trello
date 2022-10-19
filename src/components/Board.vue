@@ -25,7 +25,8 @@
           <div class="list-section">
             <div class="list-wrapper"
                  v-for="list in board.lists"
-                 :key="list.pos">
+                 :key="list.pos"
+                 :data-list-id="list.id">
               <List :data="list"/>
             </div>
             <div class="list-wrapper">
@@ -63,7 +64,8 @@ export default {
     return {
       bid: 0,
       loading: false,
-      dragulaCards: null,
+      cDragger: null,
+      lDragger: null,
       isEditTitle: false,
       inputTitle: ''
     }
@@ -80,19 +82,19 @@ export default {
     this.SET_IS_SHOW_BOARD_MENU(false)
   },
   updated() {
-    // dragulaCards 초기화 작업
-    if (this.dragulaCards) this.dragulaCards.destroy()
+    this.setListDragabble()
+
+    // cDragger 초기화 작업
+    if (this.cDragger) this.cDragger.destroy()
 
     // 유사배열을 NodeList->Array 하고 마우스를 놓았을 때 콘솔 출력
-    this.dragulaCards = dragula([
+    this.cDragger = dragula([
       ...Array.from(this.$el.querySelectorAll('.card-list'))
     ]).on('drop', (el, wrapper) => {
-      const targetCard = {
-        id: el.dataset.cardId * 1,
-        pos: 65545,
-      }
+      const targetCard = { id: el.dataset.cardId * 1, pos: 65545 }
       let prevCard = null
       let nextCard = null
+
       Array.from(wrapper.querySelectorAll('.card-item'))
         .forEach((el, idx, arr) => {
           const cardId = el.dataset.cardId * 1
@@ -117,7 +119,7 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_THEME', 'SET_IS_SHOW_BOARD_MENU']),
-    ...mapActions(['FETCH_BOARD', 'UPDATE_CARD', 'UPDATE_BOARD']),
+    ...mapActions(['FETCH_BOARD', 'UPDATE_CARD', 'UPDATE_BOARD','UPDATE_LIST']),
     fetchData() {
       this.loading = true
 
@@ -145,6 +147,42 @@ export default {
       const title = this.inputTitle
       if (title === this.board.title) return
       this.UPDATE_BOARD({id, title})
+    },
+    setListDragabble() {
+
+      // cDragger 초기화 작업
+      if (this.lDragger) this.lDragger.destroy()
+
+      // 유사배열을 NodeList->Array 하고 마우스를 놓았을 때 콘솔 출력
+      this.lDragger = dragula([
+        ...Array.from(this.$el.querySelectorAll('.list-section'))
+      ]).on('drop', (el, wrapper) => {
+        const targetList = { id: el.dataset.listId * 1, pos: 65545 }
+        let prev = null
+        let next = null
+
+        Array.from(wrapper.querySelectorAll('.list'))
+          .forEach((el, idx, arr) => {
+            const listId = el.dataset.listId * 1
+            if (listId === targetList.id) {
+              prev = idx > 0 ? {
+                id: arr[idx - 1].dataset.listId * 1,
+                pos: arr[idx - 1].dataset.listPos * 1
+              } : null
+              next = idx < arr.length - 1 ? {
+                id: arr[idx + 1].dataset.listId * 1,
+                pos: arr[idx + 1].dataset.listPos * 1
+              } : null
+            }
+          })
+
+        if (!prev && next) targetList.pos = next.pos / 2
+        else if (!next && prev) targetList.pos = prev.pos * 2
+        else if (prev && next) targetList.pos = (prev.pos + next.pos) / 2
+
+        this.UPDATE_LIST(targetList)
+      })
+
     }
   }
 }
