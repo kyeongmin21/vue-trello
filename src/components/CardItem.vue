@@ -1,17 +1,34 @@
 <template>
-  <div class="card-item">
+  <div class="card-item" :data-card-id="data.id" :data-card-pos="data.pos">
+ <router-link :to="`/b/${boardId}/c/${data.id}`">
     <div>{{data.title}}</div>
     <div class="card-item-meta"
          v-if="data.description">&equiv;</div>
+   <a href="" class="delete-card-btn" @click.prevent="onDelete">&times;</a>
+ </router-link>
   </div>
 </template>
 
 <script>
+import {mapState, mapActions} from 'vuex';
+
 export default {
   name: "CardItem",
   props: [
     'data',
   ],
+  computed: {
+    ...mapState({
+      'boardId': state => state.board.id
+    })
+  },
+  methods: {
+    ...mapActions(['DELETE_CARD']),
+    onDelete() {
+      if (!window.confirm(`delete is card? `)) return
+      this.DELETE_CARD({id: this.data.id})
+    }
+  }
 }
 </script>
 
